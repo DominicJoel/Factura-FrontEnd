@@ -1,0 +1,20 @@
+
+              <h3> {{ leyenda }} - {{ porcentaje }} </h3>
+              
+              <div class="input-group">
+                  <div class="input-group-append">
+                    <button (click)="cambiarValor(-5)" class="btn btn-outline-primary" type="button">
+                       <i class="mdi mdi-minus "></i>
+                    </button>
+                  </div>
+
+                  <input #txtProgress type="number" class="form-control" name="progreso"  [(ngModel)] ="porcentaje" placeholder="Porciento" aria-label="Recipient's username" aria-describedby="basic-addon2" min="1" max="100"  (ngModelChange) = "onChages( $event )" > <!--(ngModel) para captuar el value del input y setearlo con el de ts, el (ngModelChange) = "onChanges( $event )" captura los caombios del ngModel y lo capturamos en el ($event) -->
+                       <!-- Para poder hacer uso del viewChild, no importa el elmento HTML que sea , si queremos hacer referencia de el debemos poner signo de numeral mas el nombre de la variable eje(#txtProgress)-->
+
+
+                  <div class="input-group-append">
+                      <button (click)="cambiarValor(+5)" class="btn btn-outline-primary" type="button">
+                        <i class="mdi mdi-plus "></i>  
+                      </button>
+                    </div>
+                </div>

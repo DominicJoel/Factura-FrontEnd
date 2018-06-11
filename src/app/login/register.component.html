@@ -1,0 +1,135 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<style>
+  .error .form-control { border-bottom: 1px solid red !important } /* Para que al momento del error se ponga rojo el input */
+</style>
+
+
+<section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login-register.jpg);">
+    <div class="login-box card">
+        <div class="card-body">
+            <form class="form-horizontal form-material"
+                  id="loginform"
+                  action="index.html"
+                  (ngSubmit) = "save()"
+                  [formGroup]= "registerForm"> <!-- Ese registerForm esta seteado en el ts como el formGroup principal  -->
+
+
+
+                <a href="javascript:void(0)" class="text-center db"><img src="../assets/images/logo-icon.png" alt="Home" /><br/><img src="../assets/images/logo-text.png" alt="Home" /></a>
+                <h3 class="box-title m-t-40 m-b-0">Registrate ahora</h3><small> Crea una cuenta y disfruta</small>
+                <div class="form-group m-t-20"
+                    [ngClass]="{'error': (registerForm.controls.Nombre.touched || registerForm.controls.Nombre.dirty ) &&  !registerForm.controls.Nombre.valid}">
+                    <div class="col-xs-12">
+                        <input class="form-control"
+                               type="text"
+                               placeholder="Nombre"
+                               formControlName = "Nombre" />
+
+                               <span class="help-block" *ngIf="(registerForm.get('Nombre').touched || registerForm.get('Nombre').dirty) && registerForm.get('Nombre').errors">
+                                <span *ngIf="registerForm.get('Nombre').errors.required">
+                                      Por favor ingrese un Nombre.
+                                </span>
+                                <span *ngIf="registerForm.controls.Nombre.errors.minlength">
+                                     El nombre debe tener al menos 3 caracteres.
+                                </span>
+                                <span *ngIf="registerForm.controls.Nombre.errors.maxlength">
+                                  El nombre no debe tener mas de 40 caracteres.
+                                </span>
+                            </span>
+                    </div>
+                </div>
+                <div class="form-group "
+                                [ngClass]="{'error': (registerForm.controls.Correo.touched || registerForm.controls.Correo.dirty ) &&  !registerForm.controls.Correo.valid}">
+                    <div class="col-xs-12">
+                        <input class="form-control"
+                               type="email"
+                               placeholder="Correo"
+                               formControlName = "Correo" />
+
+                         <span class="help-block" *ngIf="(registerForm.get('Correo').touched || registerForm.get('Correo').dirty) && registerForm.get('Correo').errors">
+                                <span *ngIf="registerForm.get('Correo').errors.required">
+                                      Por favor ingrese un Correo.
+                                </span>
+                                <span *ngIf="registerForm.controls.Correo.errors.pattern">
+                                     Por favor escriba un correo valido.
+                                </span>
+                            </span>
+
+                    </div>
+                </div>
+
+            <div formGroupName = "passGroup"
+                        [ngClass] = "{ 'error': registerForm.get('passGroup').errors }"> <!-- El formGroupName= passGroup lo llamamos del grupo  principal y ponemos todos los formGroup que necesitemos -->
+                  <div class="form-group "
+                          [ngClass] = "{ 'error': (registerForm.get('passGroup.pass').touched || registerForm.get('passGroup.pass').dirty) &&  !registerForm.get('passGroup.pass').valid }">
+                      <div class="col-xs-12">
+                          <input class="form-control"
+                                type="password"
+                                placeholder="Contraseña"
+                                formControlName = "pass"  />
+                          <span class="help-block" *ngIf="(registerForm.get('passGroup.pass').touched || registerForm.get('passGroup.pass').dirty) && registerForm.get('passGroup.pass').errors">
+                                  <span *ngIf="registerForm.get('passGroup.pass').errors.required">
+                                        Por favor ingrese su contraseña.
+                                  </span>
+                                  <span *ngIf="registerForm.get('passGroup.pass').errors.minlength">
+                                    La contraseña debe ser mayor a 4.
+                                  </span>
+                              </span>
+                      </div>
+                  </div>
+                  <div class="form-group"
+                            [ngClass] = "{ 'error': (registerForm.get('passGroup.confirmPass').touched || registerForm.get('passGroup.confirmPass').dirty) &&  !registerForm.get('passGroup.confirmPass').valid }">
+                      <div class="col-xs-12">
+                          <input class="form-control"
+                                 type="password"
+                                 placeholder="Confirma contraseña"
+                                 formControlName="confirmPass"/>
+
+                    <span class="help-block" *ngIf="( registerForm.get('passGroup.confirmPass').touched ||
+                                  registerForm.get('passGroup.confirmPass').dirty) &&
+                                  registerForm.get('passGroup.confirmPass').errors">
+                          <span *ngIf="registerForm.get('passGroup.confirmPass').errors.required">
+                                      Por favor confirme la contraseña.
+                          </span>
+                      </span>
+
+                        <span class="text-danger"  *ngIf="registerForm.get('passGroup').errors">
+                            Las contraseñas no coinciden
+                        </span>
+                      </div>
+                  </div>
+              </div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="checkbox checkbox-primary p-t-0">
+                            <input id="checkbox-signup"
+                                   type="checkbox"
+                                   formControlName = "acepto">
+                            <label for="checkbox-signup"> Estoy de acuerdo con los <a href="#">términos</a></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center m-t-20">
+                    <div class="col-xs-12">
+                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light"
+                                 type="submit"
+                                 [disabled]= "!registerForm.valid || registerForm.get('acepto').value == false">Registrarme</button>
+                    </div>
+                </div>
+                <div class="form-group m-b-0">
+                    <div class="col-sm-12 text-center">
+                        <p>¿Tienes una cuenta? <a [routerLink]="['/login']"
+                                                   class="text-info m-l-5"><b>Ingresa ahora</b>
+                                               </a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->

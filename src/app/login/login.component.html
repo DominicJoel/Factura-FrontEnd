@@ -1,0 +1,74 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+
+<style>
+  .error .form-control { border-bottom: 1px solid red !important } /* Para que al momento del error se ponga rojo el input */
+</style>
+
+
+<section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login-register.jpg);">
+    <div class="login-box card">
+        <div class="card-body">
+            <form class="form-horizontal form-material"
+                  id="loginform"
+                  (ngSubmit)="ingresar()"
+                  novalidate
+                  [formGroup]="loginForm">
+                <a href="javascript:void(0)" class="text-center db"><img src="../assets/images/logo-icon.png" alt="Home" /><br/><img src="../assets/images/logo-text.png" alt="Home" /></a>
+                <div class="form-group m-t-40"
+                     [ngClass]="{'error': emailMessage }">
+                    <div class="col-xs-12">
+                        <input class="form-control"
+                                type="email"
+                                placeholder="Correo"
+                                formControlName= "Correo" />
+                          <span class="help-block" *ngIf="emailMessage">
+                               {{ emailMessage }}
+                          </span>
+                    </div>
+                </div>
+                <div class="form-group"
+                    [ngClass]="{'error': (loginForm.get('Pass').touched || loginForm.get('Pass').dirty) && loginForm.get('Pass').errors}">
+                     <div class="col-xs-12">
+                        <input class="form-control"
+                               type="password"
+                               placeholder="Contraseña"
+                               formControlName= "Pass" />
+                         <span class="help-block" *ngIf="(loginForm.get('Pass').touched || loginForm.get('Pass').dirty) && loginForm.get('Pass').errors">
+                                <span *ngIf="loginForm.get('Pass').errors.required">
+                                    Este campo es Requerido
+                                </span>
+                          </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="checkbox checkbox-primary pull-left p-t-0">
+                            <input id="checkbox-signup"
+                                   type="checkbox"
+                                   class="filled-in chk-col-light-blue"
+                                   formControlName="Recuerdame"/>
+                            <label for="checkbox-signup"> Recuérdame </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center m-t-20">
+                    <div class="col-xs-12">
+                        <button class="btn btn-info btn-lg btn-block text-uppercase btn-rounded"
+                                [disabled]="!loginForm.valid"
+                                type="submit">Ingresar</button>
+                    </div>
+                </div>
+                <div class="form-group m-b-0">
+                    <div class="col-sm-12 text-center">
+                        No tienes cuenta? <a  [routerLink]="['/register']" class="text-primary m-l-5"><b>Crear cuenta</b></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
