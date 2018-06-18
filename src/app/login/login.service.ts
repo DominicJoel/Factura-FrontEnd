@@ -23,7 +23,7 @@ redirectUrl:string;
 constructor(private http:Http){
 }
 
-login(user:any ){
+login(user:ILogin ){
 
   let body = JSON.stringify(user);
   let headers = new Headers({
@@ -40,7 +40,7 @@ userLoggin( auth:boolean ){//Para validar si el usuario esta autenticado
      this.autenticar = auth;
  }
 
-insertarRegistro( user:any ){
+insertarRegistro( user:ILogin ){
 
    let body = JSON.stringify(user);
    let headers = new Headers({

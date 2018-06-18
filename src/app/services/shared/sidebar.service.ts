@@ -14,6 +14,44 @@ export class SidebarService {
             { titulo: 'Promesas', url: '/promesas' },
             { titulo: 'RxJs', url: '/rxjs' },
           ]
+     },
+     {
+      titulo: 'Compras',
+      icono: 'fa fa-shopping-cart',
+          submenu: [
+            { titulo: 'Nueva Compra', url:'/compras' },
+            { titulo: 'Historial de Compras', url:'/listaCompras' },
+          ]
+     },
+     {
+      titulo: 'Productos',
+      icono: 'fa fa-table',
+          submenu: [
+            { titulo: 'Lista de Productos', url:'/' },
+          ]
+     },
+     {
+      titulo: 'Fabricantes',
+      icono: 'fa fa-truck',
+          submenu: [
+            { titulo: 'Lista de Fabricantes', url:'/graficas1' },
+          ]
+     },
+     {
+      titulo: 'Contactos',
+      icono: 'fa fa-user',
+          submenu: [
+            { titulo: 'Clientes', url:'/clientes' },
+            { titulo: 'Proveedores', url:'/proveedor' }
+          ]
+     },
+     {
+      titulo: 'Facturacion ',
+      icono: 'fa fa-credit-card',
+          submenu: [
+            { titulo: 'Venta nueva', url:'/' },
+            { titulo: 'Lista Facturas', url:'/' }
+          ]
      }
   ];
 

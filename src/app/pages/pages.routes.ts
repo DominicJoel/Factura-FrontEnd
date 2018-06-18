@@ -8,6 +8,11 @@ import { Graficas1Component } from "./graficas1/graficas1.component";
 import { AccountSettingsComponent } from "./account-settings/account-settings.component";
 import { PromesasComponent } from "./promesas/promesas.component";
 import { RxjsComponent } from "./rxjs/rxjs.component";
+import { ComprasComponent } from "./compras/compras.component";
+import { ListaComprasComponent } from "./compras/listaCompras.component";
+import { ClientesComponent } from "./contactos/clientes.components";
+import { ProveedorComponent } from "./contactos/proveedor.components";
+
 
 //Guard
 import { AuthGuard } from "../login/Auth-guard.service";
@@ -22,6 +27,10 @@ const PAGESROUTES:Routes = [
                 { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboards' } },
                 { path: 'progress', component: ProgressComponent, data: { titulo: 'Progress Bar' } },
                 { path: 'graficas1', component: Graficas1Component, data: { titulo: 'Graficas' } },
+                { path: 'compras', component: ComprasComponent, data: { titulo: 'Compras' } },
+                { path: 'listaCompras', component: ListaComprasComponent, data: { titulo: 'Lista de Compras' } },
+                { path: 'clientes', component: ClientesComponent, data: { titulo: 'Clientes' } },
+                { path: 'proveedor', component: ProveedorComponent, data: { titulo: 'Proveedores' } },
                 { path: 'promesas', component:PromesasComponent, data: { titulo: 'Promesas' } },
                 { path: 'rxjs', component:RxjsComponent, data: { titulo: 'Rxjs' } },
                 { path: 'account-settings', component:AccountSettingsComponent, data: { titulo: 'Ajustes del Tema ' } },

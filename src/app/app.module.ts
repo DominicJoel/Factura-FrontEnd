@@ -21,6 +21,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register.component';
 import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component';
 
+//servicios
+import { PagesService } from './pages/pages.service';
 
 //Anmiaciones
 
@@ -41,7 +43,7 @@ import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [LoginService,AuthGuard],
+  providers: [LoginService,AuthGuard,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

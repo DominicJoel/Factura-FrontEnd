@@ -65,7 +65,6 @@ export class RegisterComponent implements OnInit {
 
       this._userService.insertarRegistro(prueba)
            .subscribe(data => {
-                console.log(data);
                 Swal({
                     position: 'top-end',
                     type: 'success',
