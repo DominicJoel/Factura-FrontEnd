@@ -1,0 +1,214 @@
+<style>
+  .error .form-control { border-bottom: 1px solid red !important } /* Para que al momento del error se ponga rojo el input */
+</style>
+
+
+<div class="button-row">
+  <button mat-mini-fab color="primary" data-toggle="tooltip" data-placement="top" title="Nuevo Cliente" data-toggle="modal" data-target="#crearFabricantes"><i class="fa fa-plus"></i></button>
+</div>
+
+<div class="example-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+  </mat-form-field>
+</div>
+
+<div class="example-container mat-elevation-z8">
+
+  <mat-table  [dataSource]="dataSource" matSort>
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef  > Id </mat-header-cell>
+    <mat-cell *matCellDef="let fabricante"> {{ fabricante.idFabricantes  }}</mat-cell>
+  </ng-container>
+
+  <!-- Nombre Column -->
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+    <mat-cell *matCellDef="let fabricante"> {{ fabricante.nombre  }}  </mat-cell>
+  </ng-container>
+
+  <!-- Estado Column -->
+  <ng-container matColumnDef="estado">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+    <mat-cell *matCellDef="let fabricante">
+       <div  class="activePa" *ngIf=" fabricante.estado  == 'a' "> <span data-toggle="tooltip" data-placement="top" title="Activo" class="text-success"><i class="fa fa-check"></i></span></div >
+       <div  class="activePa" *ngIf=" fabricante.estado  == 'd' "> <span data-toggle="tooltip" data-placement="top" title="Inactivo" class="text-danger"><i class="fa fa-ban"></i></span> </div >
+    </mat-cell>
+  </ng-container>
+
+  <!-- Pais Column -->
+  <ng-container matColumnDef="fecha">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>
+    <mat-cell *matCellDef="let fabricante"> {{ fabricante.fechaAgregado | date  }} </mat-cell>
+  </ng-container>
+
+
+  <ng-container matColumnDef="botones" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+        <mat-cell *matCellDef="let fabricante ">
+
+          <button *ngIf="fabricante.estado  == 'a'" (click) = "eliminar(fabricante.idFabricantes)" class="botontes btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Inactivar">
+               <span  ><i class="fa fa-ban"></i></span>
+            </button>
+            <button *ngIf="fabricante.estado  == 'd'" (click) = "activar(fabricante.idFabricantes, fabricante.nombre)" class="botontes btn btn-outline-success btn-sm" data-toggle="tooltip" data-placement="top" title="Activar">
+                <span ><i class="fa fa-check-circle"></i></span>
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Editar" (click)="editar(fabricante.idFabricantes)" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#editarFabricantes">
+                <i class="fa fa-edit"></i>
+            </button>
+        </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <div *ngIf="loading"
+        class="alert alert-warning" role="alert">
+     <strong> <i class="fa fa-refresh fa-spin" style="font-size:18px"></i> Cargando.... </strong> espere por favor.
+  </div>
+
+  <div *ngIf="empty && !loading "
+                     class="alert alert-info" role="alert">
+          <strong> No hay </strong> registro que mostrar.
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+</div>
+
+
+
+<!-- Editar Modal -->
+
+<div class="modal fade bd-example-modal-sm shortModal" id="editarFabricantes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+      <div class="modal-content bd-example-modal-sm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Fabricantes</h5>
+          <button type="button" class="close" (click)="cleanData()"  data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form novalidate
+               [formGroup]="fabricanteForm">
+              <div class="form-group row"
+                     [ngClass]="{ 'error' : (fabricanteForm.controls.nombre.touched || fabricanteForm.controls.nombre.dirty) && !fabricanteForm.controls.nombre.valid }">
+                  <label for="name" class="col-sm-2 col-form-label">Nombre</label>
+                  <div class="col-sm-12">
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           placeholder="Nombre"
+                           formControlName ="nombre" />
+
+                           <span class="help-block" *ngIf="(fabricanteForm.get('nombre').touched || fabricanteForm.get('nombre').dirty) && fabricanteForm.get('nombre').errors">
+                              <span *ngIf="fabricanteForm.get('nombre').errors.required">
+                                    Por favor ingrese el nombre del Fabricante.
+                              </span>
+                              <span *ngIf="fabricanteForm.controls.nombre.errors.minlength">
+                                     El fabricante debe tener al menos 3 caracteres.
+                             </span>
+                             <span *ngIf="fabricanteForm.controls.nombre.errors.maxlength">
+                                      El fabricante no debe tener mas de 25 caracteres
+                             </span>
+                          </span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <span class="switch " >
+                        <div class="col-sm-12">
+                            <div class="switch switchButton">
+                                <label>
+                                    INACTIVO
+                                    <input
+                                           type="checkbox"
+                                           checked="checked"
+                                           formControlName = "estado" >
+                                         <span class="lever"></span>
+                                    ACTIVO
+                                </label>
+                            </div>
+                        </div>
+                      </span>
+                </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cleanData()"  data-dismiss="modal">Cancelar</button>
+          <button type="button" (click)="editarSave()" [disabled]="!fabricanteForm.valid"  data-dismiss="modal" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- Crear Modal -->
+
+<div class="modal fade bd-example-modal-sm shortModal" id="crearFabricantes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+      <div class="modal-content bd-example-modal-sm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Fabricantes</h5>
+          <button type="button" class="close" (click)="cleanData()"  data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form novalidate
+               [formGroup]="fabricanteForm">
+              <div class="form-group row"
+                     [ngClass]="{ 'error' : (fabricanteForm.controls.nombre.touched || fabricanteForm.controls.nombre.dirty) && !fabricanteForm.controls.nombre.valid }">
+                  <label for="name" class="col-sm-2 col-form-label">Nombre</label>
+                  <div class="col-sm-12">
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           placeholder="Nombre"
+                           formControlName ="nombre" />
+
+                           <span class="help-block" *ngIf="(fabricanteForm.get('nombre').touched || fabricanteForm.get('nombre').dirty) && fabricanteForm.get('nombre').errors">
+                              <span *ngIf="fabricanteForm.get('nombre').errors.required">
+                                    Por favor ingrese el nombre del Fabricante.
+                              </span>
+                              <span *ngIf="fabricanteForm.controls.nombre.errors.minlength">
+                                     El fabricante debe tener al menos 3 caracteres.
+                             </span>
+                             <span *ngIf="fabricanteForm.controls.nombre.errors.maxlength">
+                                      El fabricante no debe tener mas de 25 caracteres
+                             </span>
+                          </span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <span class="switch " >
+                        <div class="col-sm-12">
+                            <div class="switch switchButton">
+                                <label>
+                                    INACTIVO
+                                    <input
+                                           type="checkbox"
+                                           checked="checked"
+                                           formControlName = "estado">
+                                    <span class="lever"></span>
+                                    ACTIVO
+                                </label>
+                            </div>
+                        </div>
+                      </span>
+                </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cleanData()"  data-dismiss="modal">Cancelar</button>
+          <button type="button" (click)="save()" [disabled]="!fabricanteForm.valid"  data-dismiss="modal" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>

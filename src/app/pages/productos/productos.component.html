@@ -1,0 +1,88 @@
+<style>
+  .error .form-control { border-bottom: 1px solid red !important } /* Para que al momento del error se ponga rojo el input */
+</style>
+
+
+<!-- <div class="button-row">
+  <button mat-mini-fab color="primary" data-toggle="tooltip" data-placement="top" title="Nuevo Cliente" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i></button>
+</div> -->
+
+<div class="example-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+  </mat-form-field>
+</div>
+
+<div class="example-container mat-elevation-z8">
+
+  <mat-table  [dataSource]="dataSource" matSort>
+
+  <!-- Code Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef  > Codigo </mat-header-cell>
+    <mat-cell *matCellDef="let producto"> {{ producto.idProductos }}</mat-cell>
+  </ng-container>
+
+  <!-- Nombre Column -->
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+    <mat-cell *matCellDef="let producto"> {{ producto.nombre  }}  </mat-cell>
+  </ng-container>
+
+  <!-- Precio Column -->
+  <ng-container matColumnDef="precio">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Precio </mat-header-cell>
+    <mat-cell *matCellDef="let producto"> {{ producto.precio | currency }} </mat-cell>
+  </ng-container>
+
+
+  <!-- modelo Column -->
+  <ng-container matColumnDef="modelo">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Modelo </mat-header-cell>
+    <mat-cell *matCellDef="let producto"> {{ producto.modelo  }} </mat-cell>
+  </ng-container>
+
+  <!-- stock Column -->
+  <ng-container matColumnDef="stock">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Stock </mat-header-cell>
+    <mat-cell *matCellDef="let producto"> {{ producto.stock }} </mat-cell>
+  </ng-container >
+
+    <!-- descripcion Column -->
+    <ng-container matColumnDef="descripcion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{ producto.descripcion  }} </mat-cell>
+    </ng-container>
+
+  <ng-container matColumnDef="botones" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+        <mat-cell *matCellDef="let producto ">
+            <button *ngIf="producto.estado  == 'd'" class="botonesProductos btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Activar">
+              <span  ><i class="fa fa-ban"></i></span>
+           </button>
+           <button *ngIf="producto.estado  == 'a'"  class="botonesProductos btn btn-outline-success btn-sm" data-toggle="tooltip" data-placement="top" title="Inactivar">
+               <span ><i class="fa fa-check-circle"></i></span>
+           </button>
+            <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-outline-secondary btn-sm"  data-toggle="modal" data-target="#ModalClienteEditar">
+                <i class="fa fa-edit"></i>
+            </button>
+        </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <div *ngIf="loading"
+        class="alert alert-warning" role="alert">
+     <strong> <i class="fa fa-refresh fa-spin" style="font-size:18px"></i> Cargando.... </strong> espere por favor.
+  </div>
+
+  <div *ngIf="empty && !loading "
+                     class="alert alert-info" role="alert">
+          <strong> No hay </strong> registro que mostrar.
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+</div>
