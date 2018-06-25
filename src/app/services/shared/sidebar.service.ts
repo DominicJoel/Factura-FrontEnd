@@ -27,14 +27,14 @@ export class SidebarService {
       titulo: 'Productos',
       icono: 'fa fa-table',
           submenu: [
-            { titulo: 'Lista de Productos', url:'/' },
+            { titulo: 'Lista de Productos', url:'/productos' },
           ]
      },
      {
       titulo: 'Fabricantes',
       icono: 'fa fa-truck',
           submenu: [
-            { titulo: 'Lista de Fabricantes', url:'/graficas1' },
+            { titulo: 'Lista de Fabricantes', url:'/fabricantes' },
           ]
      },
      {

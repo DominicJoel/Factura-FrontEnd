@@ -43,7 +43,7 @@ import { PagesService } from './pages/pages.service';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [LoginService,AuthGuard,],
+  providers: [LoginService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

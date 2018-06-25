@@ -12,6 +12,8 @@ import { ComprasComponent } from "./compras/compras.component";
 import { ListaComprasComponent } from "./compras/listaCompras.component";
 import { ClientesComponent } from "./contactos/clientes.components";
 import { ProveedorComponent } from "./contactos/proveedor.components";
+import { FabricantesComponent } from "./fabricantes/fabricantes.component";
+import { ProductosComponent } from "./productos/productos.component";
 
 
 //Guard
@@ -31,6 +33,8 @@ const PAGESROUTES:Routes = [
                 { path: 'listaCompras', component: ListaComprasComponent, data: { titulo: 'Lista de Compras' } },
                 { path: 'clientes', component: ClientesComponent, data: { titulo: 'Clientes' } },
                 { path: 'proveedor', component: ProveedorComponent, data: { titulo: 'Proveedores' } },
+                { path: 'fabricantes', component: FabricantesComponent, data: { titulo: 'Fabricantes' } },
+                { path: 'productos', component: ProductosComponent, data: { titulo: 'Productos' } },
                 { path: 'promesas', component:PromesasComponent, data: { titulo: 'Promesas' } },
                 { path: 'rxjs', component:RxjsComponent, data: { titulo: 'Rxjs' } },
                 { path: 'account-settings', component:AccountSettingsComponent, data: { titulo: 'Ajustes del Tema ' } },

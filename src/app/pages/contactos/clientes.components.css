@@ -38,4 +38,23 @@
     max-width: 1000px;
 }
 
+.activePa{
+  width: 146px;
+  padding: 0;
+  margin-left: 15px;
+}
 
+.shortModal{
+     width: 419px;
+    margin-left: 500px;
+    margin-top: 138px;
+}
+
+.switchButton{
+  margin-left: 79px;
+}
+
+
+.botonesProductos{
+  margin-left: 66px;
+}

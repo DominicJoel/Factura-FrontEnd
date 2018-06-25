@@ -8,7 +8,7 @@ import { PAGES_ROUTES } from './pages.routes';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms'; //Forms, para poder usar ngModel y todo lo del Form
 import { ChartsModule } from 'ng2-charts';//Para los charts de graficos, que descargamos de ng2-charts
-import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import { NgxPaginationModule } from 'ngx-pagination'; // <-- import the module
 import { ReactiveFormsModule } from '@angular/forms';//  Importamos esto para, importar el reactiveForms
 //servicios
 import { PagesService } from './pages.service';
@@ -25,14 +25,18 @@ import { ComprasComponent } from './compras/compras.component';
 import { ListaComprasComponent } from './compras/listaCompras.component';
 import { ClientesComponent } from './contactos/clientes.components';
 import { ProveedorComponent } from './contactos/proveedor.components';
+import { FabricantesComponent } from './fabricantes/fabricantes.component';
+import { ProductosComponent } from './productos/productos.component';
 
 //Componentes personalizados
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component'; //Si vamos a usar un componente perzonalizado, debe estar en el modulo donde esta el componente sera llamado
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 
-//animaciones Materia
+//animaciones Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule,MatSortModule,MatPaginatorModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatIconModule,MatTabsModule } from '@angular/material';
+
+
 
 @NgModule({
     declarations: [
@@ -48,7 +52,9 @@ import { MatTableModule,MatSortModule,MatPaginatorModule,MatInputModule,MatFormF
         ClientesComponent,
         ComprasComponent,
         PromesasComponent,
-        RxjsComponent
+        RxjsComponent,
+        FabricantesComponent,
+        ProductosComponent
 
     ],
     imports: [

@@ -1,3 +1,679 @@
-<p>
-  Proveedor works!
- </p>
+<style>
+  .error .form-control { border-bottom: 1px solid red !important } /* Para que al momento del error se ponga rojo el input */
+</style>
+
+
+<div class="button-row">
+  <button mat-mini-fab color="primary" data-toggle="tooltip" data-placement="top" title="Nuevo Proveedor" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i></button>
+</div>
+
+<div class="example-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+  </mat-form-field>
+</div>
+
+<div class="example-container mat-elevation-z8">
+
+  <mat-table  [dataSource]="dataSource" matSort>
+
+  Position Column
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef  > Cedula </mat-header-cell>
+    <mat-cell *matCellDef="let proveedor"> {{ proveedor.cedulaProveedor  }}</mat-cell>
+  </ng-container>
+
+  <!-- Nombre Column -->
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+    <mat-cell *matCellDef="let proveedor"> {{ proveedor.nombre  }}  </mat-cell>
+  </ng-container>
+
+  <!-- Apellido Column -->
+  <ng-container matColumnDef="apellido">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </mat-header-cell>
+    <mat-cell *matCellDef="let proveedor"> {{ proveedor.apellido  }} </mat-cell>
+  </ng-container>
+
+  <!-- Pais Column -->
+  <ng-container matColumnDef="empresa">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </mat-header-cell>
+    <mat-cell *matCellDef="let proveedor"> {{ proveedor.nombreEmpresa  }} </mat-cell>
+  </ng-container>
+
+  <!-- Telefono Column -->
+  <ng-container matColumnDef="telefono">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Telefono Empresa </mat-header-cell>
+    <mat-cell *matCellDef="let proveedor"> {{ proveedor.telefonoEmpresa  }} </mat-cell>
+  </ng-container>
+
+  <!-- Correo Column -->
+  <ng-container matColumnDef="correo">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Correo Empresa </mat-header-cell>
+    <mat-cell *matCellDef="let proveedor"> {{ proveedor.sitioWebEmpresa  }} </mat-cell>
+  </ng-container >
+
+  <ng-container matColumnDef="botones" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+        <mat-cell *matCellDef="let proveedor ">
+            <button (click) = "eliminar(proveedor.idProveedor)" class="botontes btn btn-outline-danger btn-sm " data-toggle="tooltip" data-placement="top" title="Eliminar">
+                <i class="fa fa-trash"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-outline-secondary btn-sm" (click)="editar(proveedor.idProveedor)"  data-toggle="modal" data-target="#ModalClienteEditar">
+                <i class="fa fa-edit"></i>
+            </button>
+        </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <div *ngIf="loading"
+        class="alert alert-warning" role="alert">
+     <strong> <i class="fa fa-refresh fa-spin" style="font-size:18px"></i> Cargando....</strong> espere por favor.
+  </div>
+
+  <div *ngIf="empty && !loading "
+                     class="alert alert-info" role="alert">
+          <strong> No hay </strong> registro que mostrar.
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+</div>
+
+
+<!-- Modal Editar -->
+  <!-- Modal -->
+  <div class="modal fade" id="ModalClienteEditar" tabindex="-1" role="dialog" aria-labelledby="ModalClienteEditarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Clientes</h5>
+
+          <button type="button" class="close" (click)="cleanData()"  data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form novalidate
+                  [formGroup]="proveedorForm">
+              <mat-card>
+                    <mat-card-content>
+                      <mat-tab-group class="demo-tab-group">
+                        <mat-tab label="Info 1">
+                          <div class="demo-tab-content col-md-12">
+                              <div class="form-body">
+                                  <div class="row p-t-20">
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                                 [ngClass]="{ 'error' : (proveedorForm.controls.nombre.touched || proveedorForm.controls.nombre.dirty) && !proveedorForm.controls.nombre.valid }">
+                                              <label class="control-label">Nombres</label>
+                                              <input type="text"
+                                                     id="firstName"
+                                                     class="form-control"
+                                                      placeholder="Nombres"
+                                                      formControlName = "nombre" />
+                                               <span class="help-block" *ngIf="(proveedorForm.get('nombre').touched || proveedorForm.get('nombre').dirty) && proveedorForm.get('nombre').errors">
+                                                   <span *ngIf="proveedorForm.get('nombre').errors.required">
+                                                         Por favor ingrese un Nombre.
+                                                   </span>
+                                                   <span *ngIf="proveedorForm.controls.nombre.errors.minlength">
+                                                        El nombre debe tener al menos 3 caracteres.
+                                                   </span>
+                                                   <span *ngIf="proveedorForm.controls.nombre.errors.maxlength">
+                                                     El nombre no debe tener mas de 25 caracteres.
+                                                   </span>
+                                               </span>
+                                            </div>
+                                      </div>
+                                      <!--/span-->
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.apellido.touched || proveedorForm.controls.apellido.dirty) && !proveedorForm.controls.apellido.valid }">
+                                              <label class="control-label">Apellido</label>
+                                              <input type="text"
+                                                     id="apellido"
+                                                     class="form-control"
+                                                     placeholder="Apellidos"
+                                                     formControlName = "apellido">
+                                                     <span class="help-block" *ngIf="(proveedorForm.get('apellido').touched || proveedorForm.get('apellido').dirty) && proveedorForm.get('apellido').errors">
+                                                        <span *ngIf="proveedorForm.get('apellido').errors.required">
+                                                              Por favor ingrese el apellido.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.controls.apellido.errors.minlength">
+                                                             El apellido debe tener al menos 3 caracteres.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.controls.apellido.errors.maxlength">
+                                                              El apeliido no debe tener mas de 30 caracteres.
+                                                        </span>
+                                                    </span>
+                                              </div>
+                                      </div>
+                                      <!--/span-->
+                                  </div>
+                                  <!--/row-->
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.cedula.touched || proveedorForm.controls.cedula.dirty) && !proveedorForm.controls.cedula.valid }">
+                                              <label class="control-label">Cedula</label>
+                                              <input disabled
+                                                     type="text"
+                                                     id="Cedula"
+                                                     class="form-control"
+                                                     placeholder="Cedula"
+                                                     formControlName="cedula">
+                                                     <span class="help-block" *ngIf="(proveedorForm.get('cedula').touched || proveedorForm.get('cedula').dirty) && proveedorForm.get('cedula').errors">
+                                                        <span *ngIf="proveedorForm.get('cedula').errors.required">
+                                                              Por favor ingrese la cedula.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.controls.cedula.errors.min">
+                                                             La cedula debe tener 11 caracteres.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.controls.cedula.errors.max">
+                                                                  La cedula no debe tener mas 11 caracteres
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                      </div>
+                                      <!--/span-->
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.telefono.touched || proveedorForm.controls.telefono.dirty) && !proveedorForm.controls.telefono.valid }">
+                                              <label class="control-label">Telefono</label>
+                                              <input type="tel"
+                                                     id="telefono"
+                                                     class="form-control"
+                                                     placeholder="Telefono"
+                                                     formControlName = "telefono">
+                                                     <span class="help-block" *ngIf="(proveedorForm.get('telefono').touched || proveedorForm.get('telefono').dirty) && proveedorForm.get('telefono').errors">
+                                                        <span *ngIf="proveedorForm.get('telefono').errors.required">
+                                                              Por favor ingrese un telefono.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.get('telefono').errors.pattern">
+                                                             El formato de Telefono no es valido
+                                                      </span>
+                                                    </span>
+                                                </div>
+                                      </div>
+                                      <!--/span-->
+                                  </div>
+                                  <!--/row-->
+                                  <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="form-group"
+                                                   [ngClass]="{ 'error' : (proveedorForm.controls.nombreEmpresa.touched || proveedorForm.controls.nombreEmpresa.dirty) && !proveedorForm.controls.nombreEmpresa.valid }">
+                                                  <label class="control-label">Nombre Empresa</label>
+                                                  <input type="text"
+                                                         id="NombreEmpresa"
+                                                         class="form-control"
+                                                         placeholder="Nombre Empresa"
+                                                         formControlName = "nombreEmpresa">
+                                                         <span class="help-block" *ngIf="(proveedorForm.get('nombreEmpresa').touched || proveedorForm.get('nombreEmpresa').dirty) && proveedorForm.get('nombreEmpresa').errors">
+                                                            <span *ngIf="proveedorForm.get('nombreEmpresa').errors.required">
+                                                                  Por favor ingrese el Nombre Empresa.
+                                                            </span>
+                                                            <span *ngIf="proveedorForm.controls.nombreEmpresa.errors.minlength">
+                                                                El nombre de la empresa debe tener al menos 3 caracteres.
+                                                            </span>
+                                                            <span *ngIf="proveedorForm.controls.nombreEmpresa.errors.maxlength">
+                                                                 El nombre de la empresa no debe tener mas de 40 caracteres
+                                                             </span>
+                                                        </span>
+                                                   </div>
+                                          </div>
+                                      <!--/span-->
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.telefonoEmpresa.touched || proveedorForm.controls.telefonoEmpresa.dirty) && !proveedorForm.controls.telefonoEmpresa.valid }">
+                                              <label class="control-label">Telefono Empresa</label>
+                                              <input type="tel"
+                                                     id="TelefonoEmpresa"
+                                                     class="form-control"
+                                                     placeholder="Telefono Empresa"
+                                                     formControlName = "telefonoEmpresa">
+                                                     <span class="help-block" *ngIf="(proveedorForm.get('telefonoEmpresa').touched || proveedorForm.get('telefonoEmpresa').dirty) && proveedorForm.get('telefonoEmpresa').errors">
+                                                        <span *ngIf="proveedorForm.get('telefonoEmpresa').errors.required">
+                                                              Por favor ingrese el Telefono de la Empresa.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.get('telefonoEmpresa').errors.pattern">
+                                                             El formato de Telefono no es valido
+                                                        </span>
+                                                    </span>
+                                             </div>
+                                      </div>
+                                      <!--/span-->
+                                  </div>
+                                 <!--/row-->
+                                 <div class="row">
+                                      <div class="col-md-12">
+                                        <div class="form-group"
+                                             [ngClass]="{ 'error' : (proveedorForm.controls.correoEmpresa.touched || proveedorForm.controls.correoEmpresa.dirty) && !proveedorForm.controls.correoEmpresa.valid }">
+                                            <label class="control-label">Correo Empresa</label>
+                                            <input type="email"
+                                                   id="CorreoEmpresa"
+                                                   class="form-control"
+                                                   placeholder="Correo Empresa"
+                                                   formControlName = "correoEmpresa">
+                                                   <span class="help-block" *ngIf="(proveedorForm.get('correoEmpresa').touched || proveedorForm.get('correoEmpresa').dirty) && proveedorForm.get('correoEmpresa').errors">
+                                                      <span *ngIf="proveedorForm.get('correoEmpresa').errors.required">
+                                                            Por favor ingrese el correo de la empresa.
+                                                      </span>
+                                                      <span *ngIf="proveedorForm.get('correoEmpresa').errors.pattern">
+                                                        El formato del Correo no es valido
+                                                       </span>
+                                                  </span>
+                                            </div>
+                                        </div>
+                                      </div>
+                                 </div>
+
+                              </div>
+                        </mat-tab>
+                        <!-- Inicio Tab 2 -->
+                        <mat-tab label="Info 2">
+                          <div class="demo-tab-content col-md-12">
+                                   <!--/row-->
+                                   <h3 class="box-title m-t-40">Informacion de Importancia</h3>
+                                   <hr>
+                                   <div class="row">
+                                       <div class="col-md-8 ">
+                                           <div class="form-group"
+                                                [ngClass]="{ 'error' : (proveedorForm.controls.correo.touched || proveedorForm.controls.correo.dirty) && !proveedorForm.controls.correo.valid }">
+                                               <label>Correo</label>
+                                               <input  type="email"
+                                                       id="correo"
+                                                       class="form-control"
+                                                       placeholder="Correo"
+                                                       formControlName = "correo">
+                                                       <span class="help-block" *ngIf="(proveedorForm.get('correo').touched || proveedorForm.get('correo').dirty) && proveedorForm.get('correo').errors">
+                                                          <span *ngIf="proveedorForm.get('correo').errors.required">
+                                                                Por favor ingrese un correo.
+                                                          </span>
+                                                          <span *ngIf="proveedorForm.get('correo').errors.pattern">
+                                                               El formato del Correo no es valido
+                                                        </span>
+                                                      </span>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <!-- /row -->
+                                   <div class="row">
+                                       <div class="col-md-6">
+                                           <div class="form-group"
+                                                [ngClass]="{ 'error' : (proveedorForm.controls.ciudad.touched || proveedorForm.controls.ciudad.dirty) && !proveedorForm.controls.ciudad.valid }">
+                                               <label>Ciudad</label>
+                                               <input type="text"
+                                                      class="form-control"
+                                                      formControlName = "ciudad">
+                                                      <span class="help-block" *ngIf="(proveedorForm.get('ciudad').touched || proveedorForm.get('ciudad').dirty) && proveedorForm.get('ciudad').errors">
+                                                          <span *ngIf="proveedorForm.get('ciudad').errors.required">
+                                                                Este campo es requerido.
+                                                          </span>
+                                                          <span *ngIf="proveedorForm.controls.ciudad.errors.minlength">
+                                                              La direccion debe tener al menos 4 caracteres.
+                                                         </span>
+                                                      </span>
+                                           </div>
+                                       </div>
+                                       <!--/span-->
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                              <label>Pais</label>
+                                              <select class="form-control custom-select"
+                                                      formControlName = "pais">
+                                                  <option>--Selecciona un pais--</option>
+                                                  <option>Republica Dominicana</option>
+                                                  <option>Haiti</option>
+                                                  <option>USA</option>
+                                                  <option>Venezuela</option>
+                                                  <option>China</option>
+                                                  <option>Japon</option>
+                                                  <option>Mexico</option>
+                                                  <option>Chile</option>
+                                                  <option>Puerto Rico</option>
+                                                  <option>Peru</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                         <!--/span-->
+                                   </div>
+                                   <!--/row-->
+                                   <div class="row">
+                                      <div class="col-md-12 ">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.direccion.touched || proveedorForm.controls.direccion.dirty) && !proveedorForm.controls.direccion.valid }">
+                                              <label>Direccion</label>
+                                              <textarea type="text"
+                                                        class="form-control"
+                                                        formControlName = "direccion">
+                                              </textarea>
+                                                        <span class="help-block" *ngIf="(proveedorForm.get('direccion').touched || proveedorForm.get('direccion').dirty) && proveedorForm.get('direccion').errors">
+                                                            <span *ngIf="proveedorForm.get('direccion').errors.required">
+                                                                  Por favor ingrese su dirrecion.
+                                                            </span>
+                                                            <span *ngIf="proveedorForm.controls.direccion.errors.minlength">
+                                                                La direccion debe tener al menos 5 caracteres.
+                                                           </span>
+                                                           <span *ngIf="proveedorForm.controls.direccion.errors.maxlength">
+                                                                     La direccion no debe tener mas de 150 caracteres
+                                                           </span>
+                                                        </span>
+                                          </div>
+                                      </div>
+                                       <!--/span-->
+                               </div>
+                          </div>
+                        </mat-tab>
+                      </mat-tab-group>
+                    </mat-card-content>
+                  </mat-card>
+                    <div class="modal-footer">
+                      <button type="button"  (click)="cleanData()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button type="button"  (click)="editarSave()"  class="btn btn-primary" [disabled]="!proveedorForm.valid" data-dismiss="modal">Guardar</button>
+                    </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal Agregar -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Clientes</h5>
+
+          <button type="button" class="close" (click)="cleanData()"  data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form novalidate
+                  [formGroup]="proveedorForm">
+              <mat-card>
+                    <mat-card-content>
+                      <mat-tab-group class="demo-tab-group">
+                        <mat-tab label="Info 1">
+                          <div class="demo-tab-content col-md-12">
+                              <div class="form-body">
+                                  <div class="row p-t-20">
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                                 [ngClass]="{ 'error' : (proveedorForm.controls.nombre.touched || proveedorForm.controls.nombre.dirty) && !proveedorForm.controls.nombre.valid }">
+                                              <label class="control-label">Nombres</label>
+                                              <input type="text"
+                                                     id="firstName"
+                                                     class="form-control"
+                                                      placeholder="Nombres"
+                                                      formControlName = "nombre" />
+                                               <span class="help-block" *ngIf="(proveedorForm.get('nombre').touched || proveedorForm.get('nombre').dirty) && proveedorForm.get('nombre').errors">
+                                                   <span *ngIf="proveedorForm.get('nombre').errors.required">
+                                                         Por favor ingrese un Nombre.
+                                                   </span>
+                                                   <span *ngIf="proveedorForm.controls.nombre.errors.minlength">
+                                                        El nombre debe tener al menos 3 caracteres.
+                                                   </span>
+                                                   <span *ngIf="proveedorForm.controls.nombre.errors.maxlength">
+                                                     El nombre no debe tener mas de 25 caracteres.
+                                                   </span>
+                                               </span>
+                                            </div>
+                                      </div>
+                                      <!--/span-->
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.apellido.touched || proveedorForm.controls.apellido.dirty) && !proveedorForm.controls.apellido.valid }">
+                                              <label class="control-label">Apellido</label>
+                                              <input type="text"
+                                                     id="apellido"
+                                                     class="form-control"
+                                                     placeholder="Apellidos"
+                                                     formControlName = "apellido">
+                                                     <span class="help-block" *ngIf="(proveedorForm.get('apellido').touched || proveedorForm.get('apellido').dirty) && proveedorForm.get('apellido').errors">
+                                                        <span *ngIf="proveedorForm.get('apellido').errors.required">
+                                                              Por favor ingrese el apellido.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.controls.apellido.errors.minlength">
+                                                             El apellido debe tener al menos 3 caracteres.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.controls.apellido.errors.maxlength">
+                                                              El apeliido no debe tener mas de 30 caracteres.
+                                                        </span>
+                                                    </span>
+                                              </div>
+                                      </div>
+                                      <!--/span-->
+                                  </div>
+                                  <!--/row-->
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.cedula.touched || proveedorForm.controls.cedula.dirty) && !proveedorForm.controls.cedula.valid }">
+                                              <label class="control-label">Cedula</label>
+                                              <input
+                                                     type="text"
+                                                     id="Cedula"
+                                                     class="form-control"
+                                                     placeholder="Cedula"
+                                                     formControlName="cedula">
+                                                     <span class="help-block" *ngIf="(proveedorForm.get('cedula').touched || proveedorForm.get('cedula').dirty) && proveedorForm.get('cedula').errors">
+                                                        <span *ngIf="proveedorForm.get('cedula').errors.required">
+                                                              Por favor ingrese la cedula.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.controls.cedula.errors.min">
+                                                             La cedula debe tener 11 caracteres.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.controls.cedula.errors.max">
+                                                                  La cedula no debe tener mas 11 caracteres
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                      </div>
+                                      <!--/span-->
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.telefono.touched || proveedorForm.controls.telefono.dirty) && !proveedorForm.controls.telefono.valid }">
+                                              <label class="control-label">Telefono</label>
+                                              <input type="tel"
+                                                     id="telefono"
+                                                     class="form-control"
+                                                     placeholder="Telefono"
+                                                     formControlName = "telefono">
+                                                     <span class="help-block" *ngIf="(proveedorForm.get('telefono').touched || proveedorForm.get('telefono').dirty) && proveedorForm.get('telefono').errors">
+                                                        <span *ngIf="proveedorForm.get('telefono').errors.required">
+                                                              Por favor ingrese un telefono.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.get('telefono').errors.pattern">
+                                                             El formato de Telefono no es valido
+                                                      </span>
+                                                    </span>
+                                                </div>
+                                      </div>
+                                      <!--/span-->
+                                  </div>
+                                  <!--/row-->
+                                  <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="form-group"
+                                                   [ngClass]="{ 'error' : (proveedorForm.controls.nombreEmpresa.touched || proveedorForm.controls.nombreEmpresa.dirty) && !proveedorForm.controls.nombreEmpresa.valid }">
+                                                  <label class="control-label">Nombre Empresa</label>
+                                                  <input type="text"
+                                                         id="NombreEmpresa"
+                                                         class="form-control"
+                                                         placeholder="Nombre Empresa"
+                                                         formControlName = "nombreEmpresa">
+                                                         <span class="help-block" *ngIf="(proveedorForm.get('nombreEmpresa').touched || proveedorForm.get('nombreEmpresa').dirty) && proveedorForm.get('nombreEmpresa').errors">
+                                                            <span *ngIf="proveedorForm.get('nombreEmpresa').errors.required">
+                                                                  Por favor ingrese el Nombre Empresa.
+                                                            </span>
+                                                            <span *ngIf="proveedorForm.controls.nombreEmpresa.errors.minlength">
+                                                                El nombre de la empresa debe tener al menos 3 caracteres.
+                                                            </span>
+                                                            <span *ngIf="proveedorForm.controls.nombreEmpresa.errors.maxlength">
+                                                                 El nombre de la empresa no debe tener mas de 40 caracteres
+                                                             </span>
+                                                        </span>
+                                                   </div>
+                                          </div>
+                                      <!--/span-->
+                                      <div class="col-md-6">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.telefonoEmpresa.touched || proveedorForm.controls.telefonoEmpresa.dirty) && !proveedorForm.controls.telefonoEmpresa.valid }">
+                                              <label class="control-label">Telefono Empresa</label>
+                                              <input type="tel"
+                                                     id="TelefonoEmpresa"
+                                                     class="form-control"
+                                                     placeholder="Telefono Empresa"
+                                                     formControlName = "telefonoEmpresa">
+                                                     <span class="help-block" *ngIf="(proveedorForm.get('telefonoEmpresa').touched || proveedorForm.get('telefonoEmpresa').dirty) && proveedorForm.get('telefonoEmpresa').errors">
+                                                        <span *ngIf="proveedorForm.get('telefonoEmpresa').errors.required">
+                                                              Por favor ingrese el Telefono de la Empresa.
+                                                        </span>
+                                                        <span *ngIf="proveedorForm.get('telefonoEmpresa').errors.pattern">
+                                                             El formato de Telefono no es valido
+                                                        </span>
+                                                    </span>
+                                             </div>
+                                      </div>
+                                      <!--/span-->
+                                  </div>
+                                 <!--/row-->
+                                 <div class="row">
+                                      <div class="col-md-12">
+                                        <div class="form-group"
+                                             [ngClass]="{ 'error' : (proveedorForm.controls.correoEmpresa.touched || proveedorForm.controls.correoEmpresa.dirty) && !proveedorForm.controls.correoEmpresa.valid }">
+                                            <label class="control-label">Correo Empresa</label>
+                                            <input type="email"
+                                                   id="CorreoEmpresa"
+                                                   class="form-control"
+                                                   placeholder="Correo Empresa"
+                                                   formControlName = "correoEmpresa">
+                                                   <span class="help-block" *ngIf="(proveedorForm.get('correoEmpresa').touched || proveedorForm.get('correoEmpresa').dirty) && proveedorForm.get('correoEmpresa').errors">
+                                                      <span *ngIf="proveedorForm.get('correoEmpresa').errors.required">
+                                                            Por favor ingrese el correo de la empresa.
+                                                      </span>
+                                                      <span *ngIf="proveedorForm.get('correoEmpresa').errors.pattern">
+                                                        El formato del Correo no es valido
+                                                       </span>
+                                                  </span>
+                                            </div>
+                                        </div>
+                                      </div>
+                                 </div>
+
+                              </div>
+                        </mat-tab>
+                        <!-- Inicio Tab 2 -->
+                        <mat-tab label="Info 2">
+                          <div class="demo-tab-content col-md-12">
+                                   <!--/row-->
+                                   <h3 class="box-title m-t-40">Informacion de Importancia</h3>
+                                   <hr>
+                                   <div class="row">
+                                       <div class="col-md-8 ">
+                                           <div class="form-group"
+                                                [ngClass]="{ 'error' : (proveedorForm.controls.correo.touched || proveedorForm.controls.correo.dirty) && !proveedorForm.controls.correo.valid }">
+                                               <label>Correo</label>
+                                               <input  type="email"
+                                                       id="correo"
+                                                       class="form-control"
+                                                       placeholder="Correo"
+                                                       formControlName = "correo">
+                                                       <span class="help-block" *ngIf="(proveedorForm.get('correo').touched || proveedorForm.get('correo').dirty) && proveedorForm.get('correo').errors">
+                                                          <span *ngIf="proveedorForm.get('correo').errors.required">
+                                                                Por favor ingrese un correo.
+                                                          </span>
+                                                          <span *ngIf="proveedorForm.get('correo').errors.pattern">
+                                                               El formato del Correo no es valido
+                                                        </span>
+                                                      </span>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <!-- /row -->
+                                   <div class="row">
+                                       <div class="col-md-6">
+                                           <div class="form-group"
+                                                [ngClass]="{ 'error' : (proveedorForm.controls.ciudad.touched || proveedorForm.controls.ciudad.dirty) && !proveedorForm.controls.ciudad.valid }">
+                                               <label>Ciudad</label>
+                                               <input type="text"
+                                                      class="form-control"
+                                                      formControlName = "ciudad">
+                                                      <span class="help-block" *ngIf="(proveedorForm.get('ciudad').touched || proveedorForm.get('ciudad').dirty) && proveedorForm.get('ciudad').errors">
+                                                          <span *ngIf="proveedorForm.get('ciudad').errors.required">
+                                                                Este campo es requerido.
+                                                          </span>
+                                                          <span *ngIf="proveedorForm.controls.ciudad.errors.minlength">
+                                                              La direccion debe tener al menos 4 caracteres.
+                                                         </span>
+                                                      </span>
+                                           </div>
+                                       </div>
+                                       <!--/span-->
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                              <label>Pais</label>
+                                              <select class="form-control custom-select"
+                                                      formControlName = "pais">
+                                                  <option>--Selecciona un pais--</option>
+                                                  <option>Republica Dominicana</option>
+                                                  <option>Haiti</option>
+                                                  <option>USA</option>
+                                                  <option>Venezuela</option>
+                                                  <option>China</option>
+                                                  <option>Japon</option>
+                                                  <option>Mexico</option>
+                                                  <option>Chile</option>
+                                                  <option>Puerto Rico</option>
+                                                  <option>Peru</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                         <!--/span-->
+                                   </div>
+                                   <!--/row-->
+                                   <div class="row">
+                                      <div class="col-md-12 ">
+                                          <div class="form-group"
+                                               [ngClass]="{ 'error' : (proveedorForm.controls.direccion.touched || proveedorForm.controls.direccion.dirty) && !proveedorForm.controls.direccion.valid }">
+                                              <label>Direccion</label>
+                                              <textarea type="text"
+                                                        class="form-control"
+                                                        formControlName = "direccion">
+                                              </textarea>
+                                                        <span class="help-block" *ngIf="(proveedorForm.get('direccion').touched || proveedorForm.get('direccion').dirty) && proveedorForm.get('direccion').errors">
+                                                            <span *ngIf="proveedorForm.get('direccion').errors.required">
+                                                                  Por favor ingrese su dirrecion.
+                                                            </span>
+                                                            <span *ngIf="proveedorForm.controls.direccion.errors.minlength">
+                                                                La direccion debe tener al menos 5 caracteres.
+                                                           </span>
+                                                           <span *ngIf="proveedorForm.controls.direccion.errors.maxlength">
+                                                                     La direccion no debe tener mas de 150 caracteres
+                                                           </span>
+                                                        </span>
+                                          </div>
+                                      </div>
+                                       <!--/span-->
+                               </div>
+                          </div>
+                        </mat-tab>
+                      </mat-tab-group>
+                    </mat-card-content>
+                  </mat-card>
+                    <div class="modal-footer">
+                      <button type="button"  (click)="cleanData()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button type="button" (click)="save()" class="btn btn-primary" [disabled]="!proveedorForm.valid" data-dismiss="modal">Guardar</button>
+                    </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+</div>

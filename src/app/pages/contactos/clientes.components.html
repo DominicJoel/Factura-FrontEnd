@@ -56,10 +56,10 @@
     <ng-container matColumnDef="botones" >
         <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
           <mat-cell *matCellDef="let cliente ">
-              <button (click) = "eliminar(cliente.id)" class="botontes" data-toggle="tooltip" data-placement="top" title="Eliminar">
+              <button (click) = "eliminar(cliente.id)" class="botontes" data-toggle="tooltip" class="botontes btn btn-outline-danger btn-sm" data-placement="top" title="Eliminar">
                   <i class="fa fa-trash"></i>
               </button>
-              <button data-toggle="tooltip" data-placement="top" title="Editar" (click)="editar(cliente.id)"  data-toggle="modal" data-target="#ModalClienteEditar">
+              <button data-toggle="tooltip" data-placement="top" title="Editar" (click)="editar(cliente.id)" class="btn btn-outline-secondary btn-sm"  data-toggle="modal" data-target="#ModalClienteEditar">
                   <i class="fa fa-edit"></i>
               </button>
           </mat-cell>
@@ -69,7 +69,17 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    <div *ngIf="loading"
+          class="alert alert-warning" role="alert">
+       <strong> <i class="fa fa-refresh fa-spin" style="font-size:18px"></i> Cargando.... </strong> espere por favor.
+    </div>
+
+    <div *ngIf="empty && !loading "
+                       class="alert alert-info" role="alert">
+            <strong> No hay </strong> registro que mostrar.
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
 </div>
 
@@ -292,7 +302,7 @@
                                                                   Este campo es requerido.
                                                             </span>
                                                             <span *ngIf="clientesForm.controls.ciudad.errors.minlength">
-                                                                La direccion debe tener al menos 7 caracteres.
+                                                                La direccion debe tener al menos 4 caracteres.
                                                            </span>
                                                         </span>
                                              </div>
@@ -351,7 +361,7 @@
                     </mat-card>
                       <div class="modal-footer">
                         <button type="button" (click)="noTrabaja()" class="btn btn-danger">No trabaja!</button>
-                        <button type="button"  (click)="cleanData()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button"  (click)="cleanData()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <button type="button"  (click)="editarSave()"  class="btn btn-primary" [disabled]="!clientesForm.valid" data-dismiss="modal">Guardar</button>
                       </div>
         </form>
@@ -582,7 +592,7 @@
                                                                   Este campo es requerido.
                                                             </span>
                                                             <span *ngIf="clientesForm.controls.ciudad.errors.minlength">
-                                                                La direccion debe tener al menos 7 caracteres.
+                                                                La direccion debe tener al menos 4 caracteres.
                                                            </span>
                                                         </span>
                                              </div>
@@ -641,7 +651,7 @@
 
           <div class="modal-footer">
             <button type="button" (click)="noTrabaja()" class="btn btn-danger">No trabaja!</button>
-            <button type="button" (click)="cleanData()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" (click)="cleanData()" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             <button type="button" (click)="save()" class="btn btn-primary" [disabled]="!clientesForm.valid" data-dismiss="modal">Guardar</button>
           </div>
         </form>

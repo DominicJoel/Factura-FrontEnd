@@ -24,7 +24,8 @@ export class ClientesComponent implements OnInit   {
  // forms //
  clientesForm: FormGroup;
  cliente : Clientes = new Clientes(); //Esta es para inicializar la variable
-
+ loading: boolean = true; //Para saber cuando carga los productos
+ empty: boolean = false; //Para indicar que la tabla esta vacia
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -44,7 +45,7 @@ export class ClientesComponent implements OnInit   {
               telefonoEmpresa: ['', [Validators.required]],
               correoEmpresa:['',[ Validators.required] ],
               correo: ['', [Validators.required ,  Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]],
-              ciudad: [ '', [ Validators.required, Validators.minLength(7) ] ],
+              ciudad: [ '', [ Validators.required, Validators.minLength(4) ] ],
               pais:['Republica Dominicana', [ Validators.required ]],
               direccion:[ '', [Validators.required, Validators.minLength(5), Validators.maxLength(150)]]
          });
@@ -63,11 +64,19 @@ export class ClientesComponent implements OnInit   {
 obtenerClientes(){
   this._pagesService.getClientes()
     .subscribe(data =>{
-     this.clientes = data;
-     this.dataSource = new MatTableDataSource(data);//Para poder usar el Filter
-     this.dataSource.sort = this.sort;
-     this.dataSource.paginator = this.paginator;
-     console.log( this.dataSource);
+     setTimeout( () => {
+          this.loading = false,
+          this.clientes = data;
+          this.dataSource = new MatTableDataSource(data);//Para poder usar el Filter
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+          },2000); //Para que la variable cambie su valor a los 3 segundos
+
+      if(data.length === 0){
+            this.empty = true;
+      }else{
+            this.empty = false;
+      }
   },error => console.error(error));
   }
 
@@ -95,7 +104,6 @@ obtenerClientes(){
                })
       }
     })
-    debugger;
   }
 
 save(){
@@ -110,7 +118,7 @@ save(){
        ciudad: this.clientesForm.value.ciudad,
        pais: this.clientesForm.value.pais,
        nombreEmpresa: this.clientesForm.value.nombreEmpresa,
-       sitioWebEmpresa: this.clientesForm.value.sitioWebEmpresa,
+       sitioWebEmpresa: this.clientesForm.value.correoEmpresa,
        telefonoEmpresa: this.clientesForm.value.telefonoEmpresa
     }
 
@@ -167,7 +175,7 @@ editarSave(){
       ciudad: this.clientesForm.value.ciudad,
       pais: this.clientesForm.value.pais,
       nombreEmpresa: this.clientesForm.value.nombreEmpresa,
-      sitioWebEmpresa: this.clientesForm.value.sitioWebEmpresa,
+      sitioWebEmpresa: this.clientesForm.value.correoEmpresa,
       telefonoEmpresa: this.clientesForm.value.telefonoEmpresa
    }
 
