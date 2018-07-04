@@ -34,8 +34,9 @@ import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.co
 
 //animaciones Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule,MatSortModule,MatPaginatorModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatIconModule,MatTabsModule } from '@angular/material';
-
+import { MatTableModule,MatSortModule,MatPaginatorModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatIconModule,MatTabsModule,MatSlideToggleModule,MatAutocompleteModule } from '@angular/material';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { EditProductComponent } from './productos/edit-product.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { MatTableModule,MatSortModule,MatPaginatorModule,MatInputModule,MatFormF
         PromesasComponent,
         RxjsComponent,
         FabricantesComponent,
-        ProductosComponent
+        ProductosComponent,
+        EditProductComponent
 
     ],
     imports: [
@@ -72,7 +74,10 @@ import { MatTableModule,MatSortModule,MatPaginatorModule,MatInputModule,MatFormF
         MatPaginatorModule,
         MatButtonModule,
         MatIconModule,
-        MatTabsModule
+        MatTabsModule,
+        MatSlideToggleModule,
+        MatAutocompleteModule,
+        NgSelectModule
       ],
        schemas: [
          CUSTOM_ELEMENTS_SCHEMA

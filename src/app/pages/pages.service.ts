@@ -82,9 +82,8 @@ elminarProveedor( id:number ){
  }
 
  /////////////////////////////////////// CRUD Fabricantes ////////////////////////////////////////////////////////
- getFabricante() {
-  return this.http.get(this.fabricantesURL)
-          .map( res => res.json() )
+ getFabricante():Observable<any> {
+  return this.http.get(this.fabricantesURL).map( res => res.json() );
  }
 
  insertarFabricante( fabricante:any ){
@@ -135,17 +134,39 @@ inactivarFabricante( id:number ){
             });
 }
 
-inactivarProducto( producto:any ){
-  let body = JSON.stringify(producto);
+inactivarProducto(id:number, estado:string ){
+
+  let Producto:any = {
+    IdProductos: id,
+    Estado: estado
+  }
+
+  let body = JSON.stringify(Producto);
   let headers = new Headers({
     'Content-Type': 'application/json'
  });
   var url:string = this.productosURL+"/Activar";
-
   return this.http.post(url, body, {headers})
             .map( (res:any) => {
                  return res.json();
             });
 }
+
+///////////////////////////////////////////  Mover la Foto //////////////////////////////////////////////
+
+moverFoto(foto:File, id: number){
+
+  let idString = "Id"+id;
+
+  let formData:FormData = new FormData();
+  formData.append('PhotoUrl', foto);//Paera que el api lo agarre en formato Form Data es la unica forma que captura un archivo
+  formData.append('ProductoId', idString );
+
+ var url:string = this.productosURL+"/img";
+ return this.http.post( url, formData)
+     .map(res => res.json())
+     .catch(error => Observable.throw(error));
+}
+
 
 }

@@ -1,17 +1,23 @@
 <style>
-  .error .form-control { border-bottom: 1px solid red !important } /* Para que al momento del error se ponga rojo el input */
+ /* .error .form-control { border-bottom: 1px solid red !important } /* Para que al momento del error se ponga rojo el input */
+  .ng-invalid.ng-touched.ng-select-container {
+  border-color: #dc3545;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8;
+}
+
 </style>
 
 
-<!-- <div class="button-row">
-  <button mat-mini-fab color="primary" data-toggle="tooltip" data-placement="top" title="Nuevo Cliente" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i></button>
-</div> -->
+ <div class="button-row">
+  <button mat-mini-fab color="primary" data-toggle="tooltip" data-placement="top" title="Nuevo Cliente" data-toggle="modal" data-target="#exaModal"><i class="fa fa-plus"></i></button>
+</div>
 
 <div class="example-header">
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
   </mat-form-field>
 </div>
+
 
 <div class="example-container mat-elevation-z8">
 
@@ -57,13 +63,13 @@
   <ng-container matColumnDef="botones" >
       <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
         <mat-cell *matCellDef="let producto ">
-            <button *ngIf="producto.estado  == 'd'" class="botonesProductos btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Activar">
+            <button *ngIf="producto.estado  == 'd'" (click)="inactivarProducto(producto.idProductos,producto.estado)" class="botonesProductos btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Activar">
               <span  ><i class="fa fa-ban"></i></span>
            </button>
-           <button *ngIf="producto.estado  == 'a'"  class="botonesProductos btn btn-outline-success btn-sm" data-toggle="tooltip" data-placement="top" title="Inactivar">
+           <button *ngIf="producto.estado  == 'a'" (click)="inactivarProducto(producto.idProductos,producto.estado)"   class="botonesProductos btn btn-outline-success btn-sm" data-toggle="tooltip" data-placement="top" title="Inactivar">
                <span ><i class="fa fa-check-circle"></i></span>
            </button>
-            <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-outline-secondary btn-sm"  data-toggle="modal" data-target="#ModalClienteEditar">
+            <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-outline-secondary btn-sm"  [routerLink] = "['/' ,producto.idProductos, 'editar']">
                 <i class="fa fa-edit"></i>
             </button>
         </mat-cell>
@@ -86,3 +92,142 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
 </div>
+
+<!-- Modal crear -->
+
+<div class="modal fade" id="exaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Productos</h5>
+        <button type="button" class="close" (click)="cleanData()"  data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <form class="example-form" novalidate
+             [formGroup]="productosForm">
+             <div class="form-body">
+                <div class="row p-t-20">
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Nombre"  formControlName ="nombre">
+                            <mat-error *ngIf="(productosForm.get('nombre').touched || productosForm.get('nombre').dirty) && productosForm.get('nombre').errors">
+                                <mat-error *ngIf="productosForm.get('nombre').errors.required">
+                                    Por favor ingrese el nombre del producto.
+                                </mat-error>
+                                <mat-error *ngIf="productosForm.controls.nombre.errors.minlength">
+                                    El producto debe tener al menos 3 caracteres.
+                                </mat-error>
+                                <mat-error *ngIf="productosForm.controls.nombre.errors.maxlength">
+                                    El producto no debe tener mas de 40 caracteres.
+                                </mat-error>
+                            </mat-error>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-md-6 marginNgSelect">
+<!--
+                         <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Fabricante" aria-label="Fabricante"  [matAutocomplete]="auto" formControlName="fabricante">
+                          <mat-autocomplete #auto="matAutocomplete" (change) = "CapturarId( productosForm.value.fabricante )">
+                            <mat-option *ngFor="let fabricante of filteredFabricantes | async" (click) ="CapturarId(fabricante.idFabricantes)" [value]="fabricante.nombre"  >
+                              <span (keydown)="CapturarId(fabricante.idFabricantes)">{{ fabricante.nombre }} </span>
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field> -->
+
+                        <ng-select [items]="fabrican"
+                            placeholder= "Fabricante"
+                            bindLabel="nombre"
+                            (change)="CapturarId($event)"
+                            bindValue="idFabricantes"
+                            formControlName = "fabricante">
+                       </ng-select>
+                    </div>
+                  </div>
+                  <div class="row p-t-20">
+                      <div class="col-md-6">
+                          <mat-form-field>
+                              <input matInput placeholder="Precio" type="number" class="example-right-align" formControlName ="precio">
+                              <span matPrefix>$&nbsp;</span>
+                              <span matSuffix>.00</span>
+                              <mat-error *ngIf="(productosForm.get('precio').touched || productosForm.get('precio').dirty) && productosForm.get('precio').errors">
+                                    <mat-error *ngIf="productosForm.get('precio').errors.required">
+                                        Por favor ingrese el Precio del producto.
+                                     </mat-error>
+                                  </mat-error>
+                            </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                          <mat-form-field hintLabel="Max 10 caracteres">
+                              <input matInput #input maxlength="10" placeholder="Modelo" formControlName = "modelo">
+                              <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                              <mat-error *ngIf="(productosForm.get('modelo').touched || productosForm.get('modelo').dirty) && productosForm.get('modelo').errors">
+                                  <mat-error *ngIf="productosForm.get('modelo').errors.required">
+                                      Por favor ingrese el modelo del producto.
+                                  </mat-error>
+                                  <mat-error *ngIf="productosForm.controls.modelo.errors.minlength">
+                                      El modelo debe tener al menos 2 caracteres.
+                                  </mat-error>
+                              </mat-error>
+                            </mat-form-field>
+                      </div>
+                    </div>
+
+                      <div class="row p-t-20">
+                          <div class="col-md-12">
+                              <mat-form-field class="example-full-width">
+                                  <textarea matInput placeholder="Descripcion" matTextareaAutosize matAutosizeMinRows="2"
+                                               matAutosizeMaxRows="5" formControlName = "descripcion" ></textarea>
+                                    <mat-error *ngIf="(productosForm.get('descripcion').touched || productosForm.get('descripcion').dirty) && productosForm.get('descripcion').errors">
+                                        <mat-error *ngIf="productosForm.get('descripcion').errors.required">
+                                            Por favor ingrese la descripcion del producto.
+                                        </mat-error>
+                                        <mat-error *ngIf="productosForm.controls.descripcion.errors.minlength">
+                                            La descripcion debe tener al menos 5 caracteres.
+                                        </mat-error>
+                                        <mat-error *ngIf="productosForm.controls.descripcion.errors.maxlength">
+                                            La descripcion no debe tener mas de 50 caracteres.
+                                        </mat-error>
+                                    </mat-error>
+                                </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                               <span>Inactivar</span>
+                                <mat-slide-toggle formControlName = "estado">Activar</mat-slide-toggle>
+                            </div>
+                         </div>
+
+               </div>
+
+            </form>
+
+            <!-- <div class="col-md-6">
+                <input type="file" (change)="onChange($event)" name="image" #image hidden/>< Escndemos el input y lo llmamaos de un eveto Click de un boton -->
+                <!-- <button *ngIf= "!this.files"  class="btn btn-primary btnGuardarImagen" (click)="image.click()"><i class="fa fa-image"></i> Cargar imagen</button>
+                <button *ngIf= "this.files"class="btn btn-info btnGuardarImagen" (click)="image.click()"><i class="fa fa-image"></i> Imagen cargada </button>
+            </div> -->
+
+
+      <div class="input-group btnValorImagen">
+        <div class="input-group-prepend">
+               <input type="file" (change)="onChange($event)" accept="image/*" name="image" #image hidden/><!-- Escndemos el input y lo llmamaos de un eveto Click de un boton  -->  <!-- accept="image/*"  = con el accept validamos lo que acepta el file, con el (*) aceptamos todos lo relacionado a imagenes, y si queremos especificar en vez de astericos ponemos las extensiones (png,jpg etc)  -->
+                <button *ngIf= "!this.files"  class="btn btn-primary " (click)="image.click()"><i class="fa fa-image"></i> Cargar imagen</button>
+                <button *ngIf= "this.files"class="btn btn-info" (click)="image.click()"><i class="fa fa-image"></i> Cargar imagen</button>
+        </div>
+        <input *ngIf= "!this.files" type="text" class="form-control" style= "border:0px;" id="validationServerUsername" disabled  aria-describedby="inputGroupPrepend3" placeholder = "URL" >
+        <input *ngIf= "this.files" type="text" class="form-control " id="validationServerUsername" disabled aria-describedby="inputGroupPrepend3" [(ngModel)] = "this.files.name"  >
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cleanData()"  data-dismiss="modal">Cancelar</button>
+        <button type="button" [disabled] = "!productosForm.valid"  (click)="save()"  data-dismiss="modal" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

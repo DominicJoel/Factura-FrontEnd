@@ -14,7 +14,7 @@ import { ClientesComponent } from "./contactos/clientes.components";
 import { ProveedorComponent } from "./contactos/proveedor.components";
 import { FabricantesComponent } from "./fabricantes/fabricantes.component";
 import { ProductosComponent } from "./productos/productos.component";
-
+import { EditProductComponent } from "./productos/edit-product.component";
 
 //Guard
 import { AuthGuard } from "../login/Auth-guard.service";
@@ -35,6 +35,7 @@ const PAGESROUTES:Routes = [
                 { path: 'proveedor', component: ProveedorComponent, data: { titulo: 'Proveedores' } },
                 { path: 'fabricantes', component: FabricantesComponent, data: { titulo: 'Fabricantes' } },
                 { path: 'productos', component: ProductosComponent, data: { titulo: 'Productos' } },
+                { path: ':id/editar', component: EditProductComponent, data: { titulo: 'Producto' } },
                 { path: 'promesas', component:PromesasComponent, data: { titulo: 'Promesas' } },
                 { path: 'rxjs', component:RxjsComponent, data: { titulo: 'Rxjs' } },
                 { path: 'account-settings', component:AccountSettingsComponent, data: { titulo: 'Ajustes del Tema ' } },

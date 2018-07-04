@@ -8,7 +8,8 @@ export class Productos {
     public  Descripcion:string = '',
     public  Estado:string = '',
     public  Stock:number = 0,
-    public  Modelo :string = ''
+    public  Modelo :string = '',
+    public UrlPhoto: string = ''
   ) { }
 
 }

@@ -1,0 +1,202 @@
+<!-- margin-left: 64px;
+/* margin-bottom: 0px; */
+margin-top: -27px; -->
+
+
+<div class="row">
+  <!-- Column -->
+  <div class="col-lg-4 col-xlg-3 col-md-5">
+      <div class="card">
+          <div class="card-body ">
+              <div class="m-t-30 "> <img  src= "{{ this.producto.UrlPhoto }}"class="imgCentro" width="150">
+                  <h4 class="card-title m-t-10 text-center">{{ this.producto.Modelo }}</h4>
+                  <h6 class="card-subtitle text-center">{{ this.producto.Nombre }}</h6>
+                  <div class="row text-center justify-content-md-center">
+                    <div class="col-6"><a href="javascript:void(0)" class="link" data-toggle="tooltip" data-placement="top" title="Precio"><i class="fa fa-money"></i> <font class="font-medium">{{ this.producto.Precio | currency }}</font></a></div>
+                    <div class="col-4"><a href="javascript:void(0)" class="link" data-toggle="tooltip" data-placement="top" title="Stock"><i class="fa fa-sitemap"></i> <font class="font-medium">{{this.producto.Stock}}</font></a></div>
+                  </div>
+              </div>
+          </div>
+          <div>
+              <hr> </div>
+          <div class="card-body"> <small class="text-muted">Id Producto</small>
+              <h6>{{this.producto.IdProductos}}</h6>
+              <small class="text-muted p-t-30 db">Id Fabricante</small>
+              <h6>{{ this.producto.IdFabricante }}</h6>
+               <small class="text-muted p-t-30 db">Estado</small>
+               <h6>{{ this.producto.Estado }}</h6>
+              <br>
+              <button class="btn btn-primary btn-lg btn-block" [routerLink] ="['/productos']"><i class="fa fa-arrow-left"> VOLVER</i></button>
+          </div>
+      </div>
+  </div>
+  <!-- Column -->
+  <!-- Column -->
+  <div class="col-lg-8 col-xlg-9 col-md-7">
+      <div class="card">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs profile-tab" role="tablist">
+              <li class="nav-item"> <a class="nav-link active show" data-toggle="tab" href="#profile" role="tab" aria-selected="true">Datos</a> </li>
+              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab" aria-selected="false" (click) ="cargarForm()">Editar</a> </li>
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content">
+              <!--second tab-->
+              <div class="tab-pane active show" id="profile" role="tabpanel">
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-md-3 col-xs-6 b-r"> <strong>Precio</strong>
+                              <br>
+                              <p class="text-muted">{{ this.producto.Precio | currency }}</p>
+                          </div>
+                          <div class="col-md-3 col-xs-6 b-r"> <strong>Cantidad</strong>
+                              <br>
+                              <p class="text-muted"> {{ this.producto.Stock }} </p>
+                          </div>
+                          <div class="col-md-3 col-xs-6 b-r"> <strong>Descripcion</strong>
+                              <br>
+                              <p class="text-muted">{{ this.producto.Descripcion }}</p>
+                          </div>
+                          <div class="col-md-3 col-xs-6"> <strong>Nombre</strong>
+                              <br>
+                              <p class="text-muted">{{ this.producto.Nombre }}</p>
+                          </div>
+                      </div>
+                      <hr>
+                      <h2 class="font-medium m-t-30">Porcentaje</h2>
+                      <hr>
+                        <h5 *ngIf="this.producto.Stock > 250" class="m-t-30">Stock <span class="pull-right">100%</span></h5>
+                        <h5 *ngIf="this.producto.Stock > 100 && this.producto.Stock < 250" class="m-t-30">Stock <span class="pull-right">80%</span></h5>
+                        <h5 *ngIf="this.producto.Stock < 100 && this.producto.Stock > 25 " class="m-t-30">Stock <span class="pull-right">50%</span></h5>
+                        <h5 *ngIf="this.producto.Stock < 25 && this.producto.Stock > 0" class="m-t-30">Stock <span class="pull-right">25%</span></h5>
+                        <h5 *ngIf="this.producto.Stock  == 0" class="m-t-30">Stock <span class="pull-right"> 0%</span></h5>
+                      <div class="progress">
+                          <div *ngIf="this.producto.Stock > 250" class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                          <div *ngIf="this.producto.Stock > 100 && this.producto.Stock < 250" class="progress-bar bg-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                          <div *ngIf="this.producto.Stock < 100 && this.producto.Stock > 25 " class="progress-bar bg-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                          <div *ngIf="this.producto.Stock < 25 && this.producto.Stock > 0" class="progress-bar bg-danger" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width:25%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                          <div *ngIf="this.producto.Stock  == 0" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                      </div>
+                      <h5 class="m-t-30">Calidad Producto <span class="pull-right">90%</span></h5>
+                      <div class="progress">
+                          <div class="progress-bar bg-info" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:50%; height:6px;"> <span class="sr-only">50% Complete</span> </div>
+                      </div>
+                  </div>
+              </div>
+              <!--Editar-->
+              <div class="tab-pane" id="settings" role="tabpanel">
+                  <div class="card-body">
+                      <form class="form-horizontal form-material" novalidate
+                           [formGroup]="productosForm">
+
+                           <div class="col-md-12">
+                              <ng-select [items]="fabrican"
+                                placeholder= "Fabricante"
+                                bindLabel="nombre"
+                                (change)="CapturarId($event)"
+                                bindValue="idFabricantes"
+                                formControlName = "fabricante">
+                              </ng-select>
+                            </div>
+
+                          <div class="form-group">
+                              <div class="col-md-12 editProductsmarginNombre">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Nombre"  formControlName ="nombre">
+                                  <mat-error *ngIf="(productosForm.get('nombre').touched || productosForm.get('nombre').dirty) && productosForm.get('nombre').errors">
+                                      <mat-error *ngIf="productosForm.get('nombre').errors.required">
+                                          Por favor ingrese el nombre del producto.
+                                      </mat-error>
+                                      <mat-error *ngIf="productosForm.controls.nombre.errors.minlength">
+                                          El producto debe tener al menos 3 caracteres.
+                                      </mat-error>
+                                      <mat-error *ngIf="productosForm.controls.nombre.errors.maxlength">
+                                          El producto no debe tener mas de 40 caracteres.
+                                      </mat-error>
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-md-12">
+                                <mat-form-field>
+                                  <input matInput placeholder="Precio" type="number" class="example-right-align" formControlName ="precio">
+                                  <span matPrefix>$&nbsp;</span>
+                                  <span matSuffix>.00</span>
+                                  <mat-error *ngIf="(productosForm.get('precio').touched || productosForm.get('precio').dirty) && productosForm.get('precio').errors">
+                                        <mat-error *ngIf="productosForm.get('precio').errors.required">
+                                            Por favor ingrese el Precio del producto.
+                                         </mat-error>
+                                      </mat-error>
+                                </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-md-12">
+                                <mat-form-field hintLabel="Max 10 caracteres">
+                                  <input matInput #input maxlength="10" placeholder="Modelo" formControlName = "modelo">
+                                   <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+                                    <mat-error *ngIf="(productosForm.get('modelo').touched || productosForm.get('modelo').dirty) && productosForm.get('modelo').errors">
+                                      <mat-error *ngIf="productosForm.get('modelo').errors.required">
+                                          Por favor ingrese el modelo del producto.
+                                      </mat-error>
+                                      <mat-error *ngIf="productosForm.controls.modelo.errors.minlength">
+                                          El modelo debe tener al menos 2 caracteres.
+                                      </mat-error>
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-md-12">
+                                <mat-form-field class="example-full-width">
+                                  <textarea matInput placeholder="Descripcion" matTextareaAutosize matAutosizeMinRows="2"
+                                               matAutosizeMaxRows="5" formControlName = "descripcion" ></textarea>
+                                      <mat-error *ngIf="(productosForm.get('descripcion').touched || productosForm.get('descripcion').dirty) && productosForm.get('descripcion').errors">
+                                        <mat-error *ngIf="productosForm.get('descripcion').errors.required">
+                                            Por favor ingrese la descripcion del producto.
+                                        </mat-error>
+                                        <mat-error *ngIf="productosForm.controls.descripcion.errors.minlength">
+                                            La descripcion debe tener al menos 5 caracteres.
+                                        </mat-error>
+                                        <mat-error *ngIf="productosForm.controls.descripcion.errors.maxlength">
+                                            La descripcion no debe tener mas de 50 caracteres.
+                                        </mat-error>
+                                    </mat-error>
+                                </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-sm-12">
+                                <span>Inactivar</span>
+                                  <mat-slide-toggle formControlName = "estado">Activar</mat-slide-toggle>
+                              </div>
+                          </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-12 editProductsbtn">
+                                <button  [disabled]="!productosForm.valid" class="btn btn-info"  (click)="save()">Guardar</button>
+                                <button class="btn btn-danger" (click)="cleanData()">Cancelar</button>
+                            </div>
+                        </div>
+
+                              <!-- <input *ngIf= "this.files" type="text" class="form-control " id="validationServerUsername" disabled aria-describedby="inputGroupPrepend3" [(ngModel)] = "this.files.name"  > -->
+                      </form>
+                      <div class="input-group btnValorImagen">
+                          <div class="input-group-prepend">
+                                 <input type="file" (change)="onChange($event)" accept="image/*" name="image" #image hidden/><!-- Escndemos el input y lo llmamaos de un eveto Click de un boton  -->  <!-- accept="image/*"  = con el accept validamos lo que acepta el file, con el (*) aceptamos todos lo relacionado a imagenes, y si queremos especificar en vez de astericos ponemos las extensiones (png,jpg etc)  -->
+                                  <button *ngIf= "!this.files"  class="btn btn-primary " (click)="image.click()"><i class="fa fa-image"></i> Actualizar Imagen</button>
+                                  <button *ngIf= "this.files"class="btn btn-info" (click)="image.click()"><i class="fa fa-image"></i> Imagen cargada</button>
+                          </div>
+                          <input *ngIf= "!this.files" type="text" class="form-control" style= "border:0px;" id="validationServerUsername" disabled  aria-describedby="inputGroupPrepend3" placeholder = "URL" >
+                          <input *ngIf= "this.files" type="text" class="form-control " id="validationServerUsername" disabled aria-describedby="inputGroupPrepend3" [(ngModel)] = "this.files.name"  >
+                        </div>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Column -->
+</div>

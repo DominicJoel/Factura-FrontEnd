@@ -83,6 +83,8 @@ Global Styles
     outline: none;
 }
 
+.cdk-overlay-container { z-index: 9999 !important; }
+
 body {
     background: #fff;
     font-family: "Montserrat", sans-serif;
