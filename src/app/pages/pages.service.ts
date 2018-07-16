@@ -18,6 +18,7 @@ export class PagesService {
  private proveedorURL: string = "http://localhost:57464/api/Proveedor";
  private fabricantesURL : string = "http://localhost:57464/api/Fabricantes";
  private productosURL: string = "http://localhost:57464/api/Productos";
+ private facturaURL: string = "http://localhost:57464/api/Factura";
 
  constructor(private http: Http) { }
 
@@ -167,6 +168,67 @@ moverFoto(foto:File, id: number){
      .map(res => res.json())
      .catch(error => Observable.throw(error));
 }
+
+///////////////////////////////////////////  CRUD FACTURA //////////////////////////////////////////////
+
+generarCodigoFactura(){
+  return this.http.get(this.facturaURL)
+     .map( res => res.json() )
+}
+
+GetListaFactura(){
+  let url : string = this.facturaURL+"/listaFactura";
+  return this.http.get(url)
+    .map( res => res.json() )
+}
+
+getFacturasRelacionadas(idFactura:number){
+
+  let Factura:any = {
+    IdFactura: idFactura
+  }
+
+  let body = JSON.stringify(Factura);
+  let headers = new Headers({
+    'Content-Type': 'application/json'
+ });
+  var url:string =this.facturaURL+"/ListaFacturaId";
+  return this.http.post(url, body, {headers})
+            .map( (res:any) => {
+                 return res.json();
+            });
+}
+
+guardarFacturas(factura:any){
+  let body = JSON.stringify(factura);
+  let headers = new Headers({
+    'Content-Type': 'application/json'
+ });
+
+  return this.http.post(this.facturaURL, body, {headers})
+            .map( (res:any) => {
+                 return res.json();
+            });
+}
+
+obtenerDetalleFacturaUnica(idFactura:number){
+  let Factura:any = {
+    IdFactura: idFactura
+  }
+
+  let body = JSON.stringify(Factura);
+  let headers = new Headers({
+    'Content-Type': 'application/json'
+ });
+  var url:string =this.facturaURL+"/FacturaUnica";
+
+  return this.http.post(url, body, {headers})
+            .map( (res:any) => {
+                 return res.json();
+            });
+}
+
+
 
 
 }

@@ -49,8 +49,8 @@ export class SidebarService {
       titulo: 'Facturacion ',
       icono: 'fa fa-credit-card',
           submenu: [
-            { titulo: 'Venta nueva', url:'/' },
-            { titulo: 'Lista Facturas', url:'/' }
+            { titulo: 'Venta nueva', url:'/factura' },
+            { titulo: 'Lista Facturas', url:'/listaFactura' }
           ]
      }
   ];

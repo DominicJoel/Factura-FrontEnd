@@ -1,0 +1,45 @@
+
+<h3>Cliente:<strong>  {{ factura.nombre }} </strong> </h3>
+<h3> Id Factura: <strong>  {{ factura.id_Factura  }} </strong> </h3>
+<h3>Fecha:<strong> {{ factura.fecha | date  }} </strong></h3>
+
+<hr>
+
+<table [dtOptions]="dtOptions" datatable  [dtTrigger]="dtTrigger"  class="row-border hover">
+  <thead>
+    <tr>
+      <th>Id Producto</th>
+      <th>Itebis</th>
+      <th>Precio Producto</th>
+      <th>Vendedor</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!--Arreglar-->
+    <tr *ngFor="let factura of facturas; let i = index">
+      <td>{{ factura.idProductos  }}</td>
+      <td>{{factura.iva | currency}}</td>
+      <th>{{factura.neto | currency}}</th>
+      <th>{{factura.vendedor}}</th>
+      <th>{{factura.precioTotal | currency}}</th>
+    </tr>
+    <tr >
+      <td><h3 >Itebis 18%: </h3></td>
+      <td><h4 colspan="2" >{{ factura.itebis | currency   }}</h4></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><h3 >Total: </h3></td>
+      <td><h4 colspan="2" >{{ factura.precioTotal | currency   }}</h4></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<hr>
+<button class="btn btn-primary btn-lg btn-block" [routerLink] ="['/listaFactura']"><i class="fa fa-arrow-left"> VOLVER</i></button>
+

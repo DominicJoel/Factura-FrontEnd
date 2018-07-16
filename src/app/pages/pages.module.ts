@@ -27,6 +27,10 @@ import { ClientesComponent } from './contactos/clientes.components';
 import { ProveedorComponent } from './contactos/proveedor.components';
 import { FabricantesComponent } from './fabricantes/fabricantes.component';
 import { ProductosComponent } from './productos/productos.component';
+import { EditProductComponent } from './productos/edit-product.component';
+import { CrearFacturaComponent } from './factura/crear-factura.component';
+import { ListaFacturaComponent } from './factura/lista-factura.component';
+import { DetalleFacturaComponent } from './factura/detalle-factura.component';
 
 //Componentes personalizados
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component'; //Si vamos a usar un componente perzonalizado, debe estar en el modulo donde esta el componente sera llamado
@@ -36,7 +40,10 @@ import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.co
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule,MatSortModule,MatPaginatorModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatIconModule,MatTabsModule,MatSlideToggleModule,MatAutocompleteModule } from '@angular/material';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { EditProductComponent } from './productos/edit-product.component';
+
+
+//ojo, angular cli(script, styles)
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -56,7 +63,10 @@ import { EditProductComponent } from './productos/edit-product.component';
         RxjsComponent,
         FabricantesComponent,
         ProductosComponent,
-        EditProductComponent
+        EditProductComponent,
+        CrearFacturaComponent,
+        ListaFacturaComponent,
+        DetalleFacturaComponent
 
     ],
     imports: [
@@ -77,7 +87,8 @@ import { EditProductComponent } from './productos/edit-product.component';
         MatTabsModule,
         MatSlideToggleModule,
         MatAutocompleteModule,
-        NgSelectModule
+        NgSelectModule,
+        DataTablesModule//Ojo
       ],
        schemas: [
          CUSTOM_ELEMENTS_SCHEMA
