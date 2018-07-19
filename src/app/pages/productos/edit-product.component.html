@@ -189,7 +189,7 @@ margin-top: -27px; -->
                                   <button *ngIf= "!this.files"  class="btn btn-primary " (click)="image.click()"><i class="fa fa-image"></i> Actualizar Imagen</button>
                                   <button *ngIf= "this.files"class="btn btn-info" (click)="image.click()"><i class="fa fa-image"></i> Imagen cargada</button>
                           </div>
-                          <input *ngIf= "!this.files" type="text" class="form-control" style= "border:0px;" id="validationServerUsername" disabled  aria-describedby="inputGroupPrepend3" placeholder = "URL" >
+                          <input  *ngIf= "!this.files" type="text" class="form-control " style= "border:0px;" id="validationServerUsername" disabled  aria-describedby="inputGroupPrepend3" placeholder = "URL" >
                           <input *ngIf= "this.files" type="text" class="form-control " id="validationServerUsername" disabled aria-describedby="inputGroupPrepend3" [(ngModel)] = "this.files.name"  >
                         </div>
 

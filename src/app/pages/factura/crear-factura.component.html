@@ -1,3 +1,210 @@
-<p>
-  crear-factura works!
-</p>
+<hr>
+<div class="container-fluid">
+      <br>
+      <br>
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="card">
+  <div class="card-body">
+      <form novalidate
+         [formGroup]="facturaForm" >
+      <div class="row form-material">
+          <div class="col-md-12 ">
+              <button [disabled]="!facturaForm.valid || factura.length == 0" type="button" (click)="save()" class="btn btn-success pull-right"><i class="fa fa-save"></i> Guardar </button>
+          </div>
+          <div class="col-md-8">
+              <button *ngIf="" type="button" class="btn btn-outline-info btnProductosFactura" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-search"></i> Seleccionar Producto </button>
+              <button  type="button" class="btn btn-outline-info btnProductosFactura" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-search"></i> Seleccionar Producto </button>
+          </div>
+          <hr>
+              <div class="col-md-6 ">
+                  <ng-select [items]="clientes"
+                  placeholder= "Cliente"
+                  bindLabel="nombre"
+                  (change)="CapturarId($event)"
+                  bindValue="id"
+                  formControlName = "cliente">
+             </ng-select>
+              </div>
+              <div class="col-md-6 inputVendedorFactura">
+                  <mat-form-field hintLabel="Max 25 caracteres">
+                      <input matInput #input maxlength="25" placeholder="Vendedor" formControlName = "vendedor">
+                      <mat-hint align="end">{{input.value?.length || 0}}/25</mat-hint>
+                      <mat-error *ngIf="(facturaForm.get('vendedor').touched || facturaForm.get('vendedor').dirty) && facturaForm.get('vendedor').errors">
+                          <mat-error *ngIf="facturaForm.get('vendedor').errors.required">
+                              Por favor ingrese su nombre.
+                          </mat-error>
+                          <mat-error *ngIf="facturaForm.controls.vendedor.errors.minlength">
+                              Su nombre debe tener al menos 3 caracteres.
+                          </mat-error>
+                      </mat-error>
+                    </mat-form-field>
+              </div>
+
+        </div>
+      </form>
+  </div>
+
+   </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+
+      <!-- ============================================================== -->
+      <!-- Start Page Content -->
+      <!-- ============================================================== -->
+      <div class="row">
+          <div class="col-12">
+              <div class="card">
+                  <div class="card-body">
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              <table class="table full-color-table full-muted-table hover-table">
+                                  <thead>
+                                      <tr>
+                                          <th>Id Producto </th>
+                                          <th>Nombre</th>
+                                          <th>Cantidad</th>
+                                          <th>Precio</th>
+                                          <th>Itebis</th>
+                                          <th>Total</th>
+                                          <th></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr *ngFor=" let fact of factura; let i = index">
+                                          <td>{{ fact.idProducto }}</td>
+                                          <td>
+                                               {{ fact.nombre }}
+                                          </td>
+                                          <td>{{fact.cantidad }}</td>
+                                          <td>{{fact.precio | currency }}</td>
+                                          <td>{{ fact.itebis | currency }}</td>
+                                          <td>{{ fact.total | currency }}</td>
+                                          <td class="text-nowrap">
+                                              <a  (click) = "delete(i)" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-trash text-danger"></i> </a>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <th></th>
+                                          <th> </th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th><strong>Total:</strong></th>
+                                          <th>{{totalDinero | currency}}</th>
+                                      </tr>
+                                      <tr>
+                                          <th></th>
+                                          <th>  </th>
+                                          <th></th>
+                                          <th></th>
+                                          <th> </th>
+                                          <th><strong> Itebis: </strong></th>
+                                          <th>{{totalItebis | currency}}</th>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Productos</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+      <div class="col-lg-12">
+          <div class="card">
+              <div class="card-body">
+                  <div class="example-header">
+                      <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                      </mat-form-field>
+                    </div>
+                  <div class="table-responsive">
+
+                      <mat-table  [dataSource]="dataSource" matSort>
+
+                          <!-- Descripcion Column -->
+                          <ng-container matColumnDef="Descripcion">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
+                            <mat-cell *matCellDef="let producto"> {{ producto.descripcion  }}  </mat-cell>
+                          </ng-container>
+
+
+                            <!-- Nombre Column -->
+                            <ng-container matColumnDef="Nombre">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+                                <mat-cell *matCellDef="let producto"> {{ producto.nombre  }} </mat-cell>
+                              </ng-container>
+
+                          <!-- Stock Column -->
+                          <ng-container matColumnDef="Stock">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Stock </mat-header-cell>
+                            <mat-cell *matCellDef="let producto"> {{ producto.stock  }} </mat-cell>
+                          </ng-container>
+
+                          <!-- Precio Column -->
+                          <ng-container matColumnDef="Precio">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Precio </mat-header-cell>
+                            <mat-cell *matCellDef="let producto"> {{  producto.precio | currency }} </mat-cell>
+                          </ng-container >
+
+                         <!-- Cantidad Column -->
+                          <ng-container matColumnDef="Cantidad">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </mat-header-cell>
+                              <mat-cell *matCellDef="let producto">
+                                <div class="">
+                                    <input matInput min="0" type="number" placeholder="0" value="0" style="width: 40px; margin-right: 15px; margin-bottom: 10px;" #cantidad >
+                                    <button  [disabled] ="cantidad.value == 0 || producto.stock < cantidad.value" (click)="FacturaLista(producto,cantidad.value)" class="btn btn-info car-mod-radius0" > <i class="ti-shopping-cart"></i>  </button>
+                                </div>
+                              </mat-cell>
+                            </ng-container>
+
+                          <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;"
+                                      ></mat-row>
+                          </mat-table>
+
+                          <div *ngIf="loading"
+                                class="alert alert-warning" role="alert">
+                             <strong> <i class="fa fa-refresh fa-spin" style="font-size:18px"></i> Cargando.... </strong> espere por favor.
+                          </div>
+
+                          <div *ngIf="empty && !loading "
+                                             class="alert alert-info" role="alert">
+                                  <strong> No hay </strong> registro que mostrar.
+                          </div>
+
+                          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+

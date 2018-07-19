@@ -6,3 +6,10 @@
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';/* Esto es importante para que encuntre el diseño de material */
 @import "~@ng-select/ng-select/themes/material.theme.css";
+
+
+/*Boostrap mod*/
+.car-mod-radius0 {
+  border-radius: 50%;
+}
+/*Fin Boostrap mod*/

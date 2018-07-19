@@ -229,7 +229,7 @@ cleanData(){
 //////////////////////////////////
 
   cargarFabricantes(){
-    this._service.getFabricante().subscribe(result => {
+    this._service.getFabricanteActivo().subscribe(result => {
         this.fabrican = result;
     });
   }

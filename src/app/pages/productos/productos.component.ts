@@ -64,7 +64,7 @@ export class ProductosComponent implements OnInit {
 
 
   cargarFabricantes(){
-    this._pagesService.getFabricante().subscribe(result => {
+    this._pagesService.getFabricanteActivo().subscribe(result => {
         this.fabrican = result;
     });
   }

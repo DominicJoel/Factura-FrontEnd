@@ -87,6 +87,10 @@ elminarProveedor( id:number ){
   return this.http.get(this.fabricantesURL).map( res => res.json() );
  }
 
+ getFabricanteActivo():Observable<any> {
+  return this.http.get(this.fabricantesURL+'/activos').map( res => res.json() );
+ }
+
  insertarFabricante( fabricante:any ){
   let body = JSON.stringify(fabricante);
   let headers = new Headers({
@@ -111,6 +115,7 @@ inactivarFabricante( id:number ){
        } )
  }
 
+
  // ///////////////////////////////////// CRUD PRODUCTOS /////////////////////////////////////////////////
 
  getProductos(){
@@ -118,6 +123,10 @@ inactivarFabricante( id:number ){
           .map( res => res.json() )
  }
 
+ getProductosActivos(){
+  return this.http.get(this.productosURL+"/activos")
+          .map( res => res.json() )
+ }
  getUnProducto( id: number ){
   return this.http.get(this.productosURL+"/"+id)
           .map( res => res.json() )

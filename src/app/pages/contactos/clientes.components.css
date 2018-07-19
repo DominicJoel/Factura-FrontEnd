@@ -114,3 +114,12 @@
 .noBorder{
   border: none;
 }
+
+.btnProductosFactura{
+  margin-left: 312px;
+  width: 229px;
+}
+
+.inputVendedorFactura{
+  margin-top: 15px;
+}
