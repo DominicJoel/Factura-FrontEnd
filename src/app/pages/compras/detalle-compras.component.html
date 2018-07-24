@@ -1,0 +1,44 @@
+
+<h3>Proveedor:<strong>  {{ compra.nombre }} </strong> </h3>
+<h3> Id Compra: <strong>  {{ compra.id_Compra  }} </strong> </h3>
+<h3>Fecha:<strong> {{ compra.fecha | date  }} </strong></h3>
+
+<hr>
+
+<table [dtOptions]="dtOptions" datatable  [dtTrigger]="dtTrigger"  class="row-border hover">
+  <thead>
+    <tr>
+      <th>Id Producto</th>
+      <th>Itebis</th>
+      <th>Precio Producto</th>
+      <th>Cantidad</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!--Arreglar-->
+    <tr *ngFor="let compra of compras; let i = index">
+      <td>{{ compra.idProductos  }}</td>
+      <td>{{compra.iva | currency}}</td>
+      <th>{{compra.neto | currency}}</th>
+      <th>{{compra.cantidad}}</th>
+      <th>{{compra.precioTotal | currency}}</th>
+    </tr>
+    <tr >
+      <td><h3 >Itebis 18%: </h3></td>
+      <td><h4 colspan="2" >{{ compra.itebis | currency   }}</h4></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><h3 >Total: </h3></td>
+      <td><h4 colspan="2" >{{ compra.precioTotal | currency   }}</h4></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<hr>
+<button class="btn btn-primary btn-lg btn-block" [routerLink] ="['/listaCompras']"><i class="fa fa-arrow-left"> VOLVER</i></button>
