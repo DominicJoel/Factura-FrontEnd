@@ -25,7 +25,8 @@ export class DetalleFacturaComponent implements OnInit {
     let id = +this.route.snapshot.params['id'];//Capturar el parametro que estamos enviando
     this.dtOptions = {
       "displayLength": 50,//Para mostrar la cantidad de datos que queremos ver
-     "searching":   false,//Para que no me aparezca lo de busqueda
+      "searching":false,//Para que no me aparezca lo de busqueda
+      "sorting":false,
       // Declare the use of the extension in the dom parameter
       dom: 'Bfrtip',//Los botones para funcionar necesitan esto
       // Configure the buttons
@@ -33,7 +34,7 @@ export class DetalleFacturaComponent implements OnInit {
         'copy',
         'print',
         'excel',
-        'pdf',
+        'pdf'
       ]
     };
     this.ObtenerFactura(id);
@@ -45,7 +46,6 @@ export class DetalleFacturaComponent implements OnInit {
            this.facturas = data;
                this._service.obtenerDetalleFacturaUnica(idFactura)//El servicio que trae los datos generales de la factura, lo ponemos dentro de este para que capture los valores y lo reconozca en la tabla
                .subscribe(data => {
-                 console.log(data)
                  this.factura = {
                    nombre: data[0].nombre,
                    id_Factura: data[0].id_Factura,
@@ -53,7 +53,6 @@ export class DetalleFacturaComponent implements OnInit {
                    itebis: data[0].itebis,
                    precioTotal: data[0].precioTotal
                  }
-                 console.log(this.factura)
                  this.dtTrigger.next();//Para que el Data Table reconozca los valores
                })
 

@@ -24,7 +24,7 @@ export class CrearFacturaComponent implements OnInit {
    // forms //
    facturaForm: FormGroup;
    clientes:Clientes[] = [];
-   clientesId: number = 0;//Para poder capturar el Id del Fabricante
+   clientesId: number = 0;//Para poder capturar el Id del cliente
    correoCliente: string = ''; //Para mandar el correo de la factura
 
    //Tabla Factura
@@ -75,7 +75,6 @@ export class CrearFacturaComponent implements OnInit {
 
     FacturaLista(producto: any,cantidad:number){//Para cargar las facturas
 
-      console.log(producto,cantidad);
       var cantidadTotal = producto.precio * cantidad;//La cantidad de dinero Total
       var itebis = (cantidadTotal / 100) * 18; //El itebis de la compra
       var facturaList = {
@@ -102,7 +101,6 @@ export class CrearFacturaComponent implements OnInit {
     }
 
     CapturarId(cliente: any){
-      console.log(cliente);
        this.clientesId = cliente.id;
        this.correoCliente = cliente.correo;
    }

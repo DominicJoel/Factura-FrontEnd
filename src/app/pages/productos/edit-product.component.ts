@@ -125,7 +125,7 @@ export class EditProductComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       })
-      console.log(data);
+    //  console.log(data);
       this.cleanData();
       this.obtenerProducto(id);
    }, error => {
@@ -235,14 +235,14 @@ cleanData(){
   }
 
   CapturarId(fabricante: any){
-    console.log(fabricante);
+    //console.log(fabricante);
      this.fabricanteId = fabricante.idFabricantes;
  }
 
   onChange(event) { //Para capturar la Url de el archivo
     //this.files = event.srcElement.files;
     this.files = <File>event.target.files[0];
-    console.log(this.files);
+  //  console.log(this.files);
   }
 
 }

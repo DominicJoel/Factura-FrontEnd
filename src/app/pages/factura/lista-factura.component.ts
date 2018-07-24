@@ -38,7 +38,7 @@ export class ListaFacturaComponent implements OnInit {
   ObtenerListaFactura(){
     this._pagesService.GetListaFactura()
        .subscribe(data =>{
-         console.log(data);
+       //  console.log(data);
             setTimeout(() => {
                this.loading = false;
                this.facturaListas = data;

@@ -39,9 +39,6 @@ export class RegisterComponent implements OnInit {
   { }
 
   ngOnInit() {
-   console.log(this.registerForm);
-
-
    this.registerForm = this.fb.group({
            Nombre:['',[Validators.required, Validators.minLength(3), Validators.maxLength(40)]],//Cuando lo hacemos con el form group podemos validar por aqui lo que debe respetar y de esa forma lo quitamos de HTML, primero setiamos el valor por defecto y luego sus validaciones si llevan
            Correo:['',[Validators.required , Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]],
@@ -80,7 +77,7 @@ export class RegisterComponent implements OnInit {
               title: 'Error',
               text: error._body
             })
-            console.log(error._body) //Para ver el mensaje de error
+            //console.log(error._body) //Para ver el mensaje de error
           })
    }
 

@@ -31,7 +31,7 @@ import { EditProductComponent } from './productos/edit-product.component';
 import { CrearFacturaComponent } from './factura/crear-factura.component';
 import { ListaFacturaComponent } from './factura/lista-factura.component';
 import { DetalleFacturaComponent } from './factura/detalle-factura.component';
-
+import { DetalleComprasComponent } from './compras/detalle-compras.component';
 //Componentes personalizados
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component'; //Si vamos a usar un componente perzonalizado, debe estar en el modulo donde esta el componente sera llamado
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
@@ -44,6 +44,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 //ojo, angular cli(script, styles)
 import { DataTablesModule } from 'angular-datatables';
+
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { DataTablesModule } from 'angular-datatables';
         EditProductComponent,
         CrearFacturaComponent,
         ListaFacturaComponent,
-        DetalleFacturaComponent
+        DetalleFacturaComponent,
+        DetalleComprasComponent
 
     ],
     imports: [

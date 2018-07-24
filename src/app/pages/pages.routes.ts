@@ -10,6 +10,7 @@ import { PromesasComponent } from "./promesas/promesas.component";
 import { RxjsComponent } from "./rxjs/rxjs.component";
 import { ComprasComponent } from "./compras/compras.component";
 import { ListaComprasComponent } from "./compras/listaCompras.component";
+import { DetalleComprasComponent } from "./compras/detalle-compras.component";
 import { ClientesComponent } from "./contactos/clientes.components";
 import { ProveedorComponent } from "./contactos/proveedor.components";
 import { FabricantesComponent } from "./fabricantes/fabricantes.component";
@@ -34,6 +35,7 @@ const PAGESROUTES:Routes = [
                 { path: 'graficas1', component: Graficas1Component, data: { titulo: 'Graficas' } },
                 { path: 'compras', component: ComprasComponent, data: { titulo: 'Compras' } },
                 { path: 'listaCompras', component: ListaComprasComponent, data: { titulo: 'Lista de Compras' } },
+                { path: ':id/detalleCompra', component: DetalleComprasComponent, data: { titulo: 'Detalle Compra' } },
                 { path: 'clientes', component: ClientesComponent, data: { titulo: 'Clientes' } },
                 { path: 'proveedor', component: ProveedorComponent, data: { titulo: 'Proveedores' } },
                 { path: 'fabricantes', component: FabricantesComponent, data: { titulo: 'Fabricantes' } },

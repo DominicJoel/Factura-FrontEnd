@@ -1,3 +1,75 @@
-<p>
- Lista compras works!
-</p>
+<style>
+  .error .form-control { border-bottom: 1px solid red !important } /* Para que al momento del error se ponga rojo el input */
+</style>
+
+<div class="button-row">
+  <button (click)="irNuevaCompra()" mat-mini-fab color="primary" data-toggle="tooltip" data-placement="top" title="Nueva Compra"><i class="fa fa-plus"></i></button>
+</div>
+
+<div class="example-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+  </mat-form-field>
+</div>
+
+<div class="example-container mat-elevation-z8">
+
+  <mat-table  [dataSource]="dataSource" matSort>
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef > Id compra </mat-header-cell>
+    <mat-cell *matCellDef="let compra"> {{ compra.id_Compra  }}</mat-cell>
+  </ng-container>
+
+  <!-- Nombre Column -->
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor </mat-header-cell>
+    <mat-cell *matCellDef="let compra"> {{ compra.nombre  }}  </mat-cell>
+  </ng-container>
+
+  <!-- Apellido Column -->
+  <ng-container matColumnDef="fecha">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>
+    <mat-cell *matCellDef="let compra"> {{ compra.fecha | date  }} </mat-cell>
+  </ng-container>
+
+  <!-- Pais Column -->
+  <ng-container matColumnDef="itebis">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Itbis </mat-header-cell>
+    <mat-cell *matCellDef="let compra"> {{ compra.itebis | currency   }} </mat-cell>
+  </ng-container>
+
+  <!-- Telefono Column -->
+  <ng-container matColumnDef="precioTotal">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Precio Total </mat-header-cell>
+    <mat-cell *matCellDef="let compra"> {{ compra.precioTotal | currency   }} </mat-cell>
+  </ng-container>
+
+
+  <ng-container matColumnDef="botones" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Detalles </mat-header-cell>
+        <mat-cell *matCellDef="let compra ">
+            <button  class="botontes" data-toggle="tooltip" class=" btn btn-outline-primary btn-sm btnDetallesFactura" data-placement="top" title="Detalles"  [routerLink] = "['/' ,compra.id_Compra, 'detalleCompra']">
+                <i class="fa fa-info"></i>
+            </button>
+        </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <div *ngIf="loading"
+        class="alert alert-warning" role="alert">
+     <strong> <i class="fa fa-refresh fa-spin" style="font-size:18px"></i> Cargando.... </strong> espere por favor.
+  </div>
+
+  <div *ngIf="empty && !loading "
+                     class="alert alert-info" role="alert">
+          <strong> No hay </strong> registro que mostrar.
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+</div>

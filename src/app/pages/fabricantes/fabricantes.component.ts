@@ -56,7 +56,6 @@ obtenerFabricantes(){
 this._pagesService.getFabricante()
   .subscribe(data =>{
 
-    console.log(data);
    setTimeout( () => {
         this.loading = false,
         this.fabricantes = data;
@@ -203,8 +202,6 @@ editarSave(){
     nombre: this.fabricanteForm.value.nombre,
     estado: estate
  }
-
- console.log(fabricanteValues);
 
 this._pagesService.insertarFabricante(fabricanteValues)
     .subscribe( data => {

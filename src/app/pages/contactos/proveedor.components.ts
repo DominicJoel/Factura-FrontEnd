@@ -64,7 +64,6 @@ obtenerProveedor(){
  this._pagesService.getProveedor()
    .subscribe(data =>{
     setTimeout( () => {
-      console.log(data)
          this.loading = false,
          this.proveedores = data;
          this.dataSource = new MatTableDataSource(data);//Para poder usar el Filter

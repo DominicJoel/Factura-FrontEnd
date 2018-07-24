@@ -19,6 +19,7 @@ export class PagesService {
  private fabricantesURL : string = "http://localhost:57464/api/Fabricantes";
  private productosURL: string = "http://localhost:57464/api/Productos";
  private facturaURL: string = "http://localhost:57464/api/Factura";
+ private compraURL: string = "http://localhost:57464/api/Compra";
 
  constructor(private http: Http) { }
 
@@ -237,6 +238,65 @@ obtenerDetalleFacturaUnica(idFactura:number){
             });
 }
 
+
+///////////////////////////////////////////  CRUD Compras //////////////////////////////////////////////
+
+generarCodigoCompras(){
+  return this.http.get(this.compraURL)
+     .map( res => res.json() )
+}
+
+GetListaCompras(){
+  let url : string = this.compraURL+"/listaCompra";
+  return this.http.get(url)
+    .map( res => res.json() )
+}
+
+getComprasRelacionadas(idCompra:number){
+
+  let Compra:any = {
+    IdCompra: idCompra
+  }
+
+  let body = JSON.stringify(Compra);
+  let headers = new Headers({
+    'Content-Type': 'application/json'
+ });
+  var url:string =this.compraURL+"/ListaCompraId";
+  return this.http.post(url, body, {headers})
+            .map( (res:any) => {
+                 return res.json();
+            });
+}
+
+guardarCompras(compras:any){
+  let body = JSON.stringify(compras);
+  let headers = new Headers({
+    'Content-Type': 'application/json'
+ });
+
+  return this.http.post(this.compraURL, body, {headers})
+            .map( (res:any) => {
+                 return res.json();
+            });
+}
+
+obtenerDetalleCompraUnica(idCompra:number){
+  let Compra:any = {
+    IdCompra: idCompra
+  }
+
+  let body = JSON.stringify(Compra);
+  let headers = new Headers({
+    'Content-Type': 'application/json'
+ });
+  var url:string =this.compraURL+"/CompraUnica";
+
+  return this.http.post(url, body, {headers})
+            .map( (res:any) => {
+                 return res.json();
+            });
+}
 
 
 
