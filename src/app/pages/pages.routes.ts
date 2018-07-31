@@ -19,6 +19,7 @@ import { EditProductComponent } from "./productos/edit-product.component";
 import { CrearFacturaComponent } from "./factura/crear-factura.component";
 import { ListaFacturaComponent } from "./factura/lista-factura.component";
 import { DetalleFacturaComponent } from "./factura/detalle-factura.component";
+import { InventarioComponent } from './inventario/inventario.component';
 
 //Guard
 import { AuthGuard } from "../login/Auth-guard.service";
@@ -44,6 +45,7 @@ const PAGESROUTES:Routes = [
                 { path: 'factura', component: CrearFacturaComponent, data: { titulo: 'Factura' } },
                 { path: ':id/detalleFactura', component: DetalleFacturaComponent, data: { titulo: 'Detalle Factura' } },
                 { path: 'listaFactura', component: ListaFacturaComponent, data: { titulo: 'Lista Factura' } },
+                { path: 'inventario', component: InventarioComponent, data: { titulo: 'Inventario' } },
                 { path: 'promesas', component:PromesasComponent, data: { titulo: 'Promesas' } },
                 { path: 'rxjs', component:RxjsComponent, data: { titulo: 'Rxjs' } },
                 { path: 'account-settings', component:AccountSettingsComponent, data: { titulo: 'Ajustes del Tema ' } },

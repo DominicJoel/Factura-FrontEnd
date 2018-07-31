@@ -1,4 +1,123 @@
-<p>
-  Dashboard works    
-</p>
+<div class="row">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex no-block">
+                                    <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon/income.png" alt="Income"></div>
+                                    <div class="align-self-center">
+                                        <h6 class="text-muted m-t-10 m-b-0">Total Entradas</h6>
+                                        <h2 class="m-t-0">{{ cantiadaDeIngreso | currency }}</h2></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body" >
+                                <div class="d-flex no-block" >
+                                    <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon/expense.png" alt="Income"></div>
+                                    <div class="align-self-center">
+                                        <h6 class="text-muted m-t-10 m-b-0">Total Gastos</h6>
+                                        <h2 class="m-t-0">{{cantidadGasto | currency}}</h2></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex no-block">
+                                    <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon/staff.png" alt="Income"></div>
+                                    <div class="align-self-center">
+                                        <h6 class="text-muted m-t-10 m-b-0">Clientes</h6>
+                                        <h2 class="m-t-0">{{cantidadClientes }}</h2></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             <!-- OJO -->
+
+             <div class="row">
+              <div class="col-lg-4">
+                  <div class="card bg-info text-white">
+                      <div class="card-body">
+                          <div class="d-flex">
+                              <div class="stats">
+                                  <h1 class="text-white">{{cantidadComprado}}+</h1>
+                                  <h6 class="text-white">Comprado</h6>
+                                  <button class="btn btn-rounded btn-outline btn-light m-t-10 font-14" [routerLink] = "['/' , 'listaCompras']">Check Compras</button>
+                              </div>
+                              <div class="stats-icon text-right ml-auto"><i class="fa fa-clipboard display-5 op-3 text-dark"></i></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div class="card bg-primary text-white">
+                      <div class="card-body">
+                          <div class="d-flex">
+                              <div class="stats">
+                                  <h1 class="text-white">{{cantiadadVendido}}+</h1>
+                                  <h6 class="text-white">Vendido</h6>
+                                  <button class="btn btn-rounded btn-outline btn-light m-t-10 font-14" [routerLink] = "['/' , 'listaFactura']">Check Ventas</button>
+                              </div>
+                              <div class="stats-icon text-right ml-auto"><i class="fa fa-credit-card display-5 op-3 text-dark"></i></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div class="card bg-success text-white">
+                      <div class="card-body">
+                          <div class="d-flex">
+                              <div class="stats">
+                                  <h1 class="text-white">{{cantidadProductos}}+</h1>
+                                  <h6 class="text-white">Cantidad de productos</h6>
+                                  <button class="btn btn-rounded btn-outline btn-light m-t-10 font-14"  [routerLink] = "['/' , 'productos']">Check Productos</button>
+                              </div>
+                              <div class="stats-icon text-right ml-auto"><i class="fa fa-truck  display-5 op-3 text-dark"></i></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+           <!-- OJO -->
+
+      <div class="card-body">
+          <div class="row" >
+              <div class="col-12">
+                  <div class="card">
+                    <div style="display: block">
+                      <fusioncharts
+                              [width]="width"
+                              [height]="height"
+                              [type]="type"
+                              [dataFormat]="dataFormat"
+                              [dataSource]="dataSource">
+                      </fusioncharts>
+                    </div>
+                  </div>
+                </div>
+           </div>
+       </div>
+
+       <div class="card-body">
+        <div class="row" >
+            <div class="col-12">
+                <div class="card">
+                  <div style="display: block">
+                    <fusioncharts
+                            [width]="width1"
+                            [height]="height1"
+                            [type]="type1"
+                            [dataFormat]="dataFormat1"
+                            [dataSource]="dataSource1">
+                    </fusioncharts>
+                  </div>
+                </div>
+              </div>
+         </div>
+     </div>
 

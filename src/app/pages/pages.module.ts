@@ -32,6 +32,8 @@ import { CrearFacturaComponent } from './factura/crear-factura.component';
 import { ListaFacturaComponent } from './factura/lista-factura.component';
 import { DetalleFacturaComponent } from './factura/detalle-factura.component';
 import { DetalleComprasComponent } from './compras/detalle-compras.component';
+import { InventarioComponent } from './inventario/inventario.component';
+
 //Componentes personalizados
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component'; //Si vamos a usar un componente perzonalizado, debe estar en el modulo donde esta el componente sera llamado
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
@@ -45,6 +47,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 //ojo, angular cli(script, styles)
 import { DataTablesModule } from 'angular-datatables';
 
+// Charts
+import { FusionChartsModule } from 'angular4-fusioncharts';
+import * as FusionCharts from 'fusioncharts';
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
 
 
 @NgModule({
@@ -68,7 +75,8 @@ import { DataTablesModule } from 'angular-datatables';
         CrearFacturaComponent,
         ListaFacturaComponent,
         DetalleFacturaComponent,
-        DetalleComprasComponent
+        DetalleComprasComponent,
+        InventarioComponent
 
     ],
     imports: [
@@ -90,8 +98,9 @@ import { DataTablesModule } from 'angular-datatables';
         MatSlideToggleModule,
         MatAutocompleteModule,
         NgSelectModule,
-        DataTablesModule//Ojo
-      ],
+        DataTablesModule,//Data Table
+        FusionChartsModule.forRoot(FusionCharts, Charts, FintTheme)//charts
+        ],
        schemas: [
          CUSTOM_ELEMENTS_SCHEMA
       ],

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator,MatPaginatorModule,MatTableDataSource,MatSort,MatSortModule,MatSortable,MatButtonModule,MatIconModule } from '@angular/material';
 import { FormGroup,FormControl, FormControlName, Validators, FormBuilder, AbstractControl,ValidatorFn } from '@angular/forms';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 
 import { Fabricantes } from '../Models/fabricantes';
@@ -70,7 +70,7 @@ export class ProductosComponent implements OnInit {
   }
 
   CapturarId(fabricante: any){
-     console.log(fabricante);
+    // console.log(fabricante);
       this.fabricanteId = fabricante.idFabricantes;
   }
 
@@ -109,7 +109,7 @@ export class ProductosComponent implements OnInit {
       Precio: this.productosForm.value.precio,
       Descripcion: this.productosForm.value.descripcion,
       Estado: estate,
-      Stock: 500,
+      Stock: 0,
       Modelo : this.productosForm.value.modelo,
       PhotoUrl: 'N/A'
     }

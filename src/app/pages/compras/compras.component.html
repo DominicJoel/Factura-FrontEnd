@@ -1,3 +1,4 @@
+
 <hr>
 <div class="container-fluid">
       <br>
@@ -18,7 +19,7 @@
               <button  type="button" class="btn btn-outline-info btnProductosFactura" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-search"></i> Seleccionar Producto </button>
           </div>
           <hr>
-              <div class="col-md-12 ">
+            <div class="col-md-12 ">
                   <ng-select [items]="proveedor"
                   placeholder= "proveedor"
                   bindLabel="nombre"
@@ -26,10 +27,10 @@
                   bindValue="idProveedor"
                   formControlName = "proveedor">
              </ng-select>
-              </div>
+          </div>
         </div>
       </form>
-  </div>
+     </div>
 
    </div>
   </div>
@@ -156,7 +157,7 @@
                             <mat-cell *matCellDef="let producto">
                               <div class="">
                                   <input matInput min="0" type="number" placeholder="0" value="0" style="width: 40px; margin-right: 15px; margin-bottom: 10px;" #cantidad >
-                                  <button  [disabled] ="cantidad.value == 0 || producto.stock < cantidad.value" (click)="CompraLista(producto,cantidad.value)" class="btn btn-info car-mod-radius0" > <i class="ti-shopping-cart"></i>  </button>
+                                  <button [disabled] ="cantidad.value == 0" (click)="CompraLista(producto,cantidad.value)" class="btn btn-info car-mod-radius0" > <i class="ti-shopping-cart"></i>  </button>
                               </div>
                             </mat-cell>
                           </ng-container>

@@ -20,6 +20,7 @@ export class PagesService {
  private productosURL: string = "http://localhost:57464/api/Productos";
  private facturaURL: string = "http://localhost:57464/api/Factura";
  private compraURL: string = "http://localhost:57464/api/Compra";
+ private reporteURL:string = "http://localhost:57464/api/Reportes";
 
  constructor(private http: Http) { }
 
@@ -298,6 +299,62 @@ obtenerDetalleCompraUnica(idCompra:number){
             });
 }
 
+//////////////////////////////////////////////////////////// Reportes //////////////////////////////////////////////////////////////////
+
+reportesCompras(){
+  return this.http.get(this.reporteURL+"/Compras")
+     .map( res => res.json() )
+ }
+
+reportesVentas(){
+  return this.http.get(this.reporteURL+"/Ventas")
+     .map( res => res.json() )
+ }
+
+cantidadClientes(){
+  return this.http.get(this.reporteURL+"/cantidadClientes")
+     .map( res => res.json() )
+ }
+
+ cantidadProductos(){
+  return this.http.get(this.reporteURL+"/cantidadProductos")
+     .map( res => res.json() )
+ }
+
+reportesMesVentas(anio:string){
+  let headers = new Headers({
+    'Content-Type': 'application/x-www-form-urlencoded'
+ });
+
+ let body = new URLSearchParams();//Para mandarle los parametros en formatp (x-www-form-urlencoded)
+ body.set('anio',anio);
+
+  var url:string =this.reporteURL+"/MesVentas";
+  return this.http.post(url, body.toString(),{headers})//Al body le tenemos que dat un ToString
+            .map( (res:any) => {
+                 return res.json();
+            });
+
+
+ }
+
+
+reportesMesCompra(anio:string){
+  let headers = new Headers({
+    'Content-Type': 'application/x-www-form-urlencoded'
+ });
+
+ let body = new URLSearchParams();//Para mandarle los parametros en formatp (x-www-form-urlencoded)
+ body.set('anio',anio);
+  var url:string =this.reporteURL+"/MesCompra";
+
+  return this.http.post(url, body.toString(),{headers})
+            .map( (res:any) => {
+                 return res.json();
+            });
+ }
+
+ /////////////////////////////////////////////////////// FIN /////////////////////////////////////////////////
 
 
 }

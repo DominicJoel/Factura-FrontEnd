@@ -5,14 +5,14 @@ export class SidebarService {
 
   menu: any = [//Un objeto para el Menu del SideBar
     {
-      titulo: 'Principal',
+      titulo: 'General',
       icono: 'mdi mdi-gauge',
           submenu: [
             { titulo: 'Dashboard', url:'/dashboard' },
             { titulo: 'progressbar', url:'/progress' },
-            { titulo: 'Graficas', url:'/graficas1' },
-            { titulo: 'Promesas', url: '/promesas' },
-            { titulo: 'RxJs', url: '/rxjs' },
+            // { titulo: 'Graficas', url:'/graficas1' },
+            { titulo: 'Inventario', url: '/inventario' },
+            // { titulo: 'RxJs', url: '/rxjs' },
           ]
      },
      {

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Graficas1Component implements OnInit {
 
-   
+
 
   constructor() { }
 
@@ -24,7 +24,7 @@ export class Graficas1Component implements OnInit {
     'grafico2': {
       'labels': ['Hombres', 'Mujeres'],
       'data':  [4500, 6000],
-      'type': 'doughnut',
+      'type': 'bar',
       'leyenda': 'Entrevistados'
     },
     'grafico3': {

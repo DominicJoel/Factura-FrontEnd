@@ -13,3 +13,7 @@
   border-radius: 50%;
 }
 /*Fin Boostrap mod*/
+
+.ng-select.ng-invalid.ng-touched .ng-select-container:after {
+     border-color: #dc3545;
+}
