@@ -26,6 +26,7 @@ export class CrearFacturaComponent implements OnInit {
    clientes:Clientes[] = [];
    clientesId: number = 0;//Para poder capturar el Id del cliente
    correoCliente: string = ''; //Para mandar el correo de la factura
+   nombreCliente: string = '';
 
    //Tabla Factura
    factura:any = [];//Para capturar las facturas que vienen de forma temporal
@@ -103,32 +104,42 @@ export class CrearFacturaComponent implements OnInit {
     CapturarId(cliente: any){
        this.clientesId = cliente.id;
        this.correoCliente = cliente.correo;
+       this.nombreCliente = cliente.nombre;
    }
 
   save(){
     //Generar Codigo de Factura
-    this._pagesService.generarCodigoFactura().subscribe( data =>{
+     this._pagesService.generarCodigoFactura().subscribe( data =>{
 
       //Guardamos la factura
-      for (let i = 0; i <= this.factura.length; i++) {
+       for (let i = 0; i <= this.factura.length; i++) {
          var facturaSave = {
-              IdFactura:data.idFactura,
-              IdCliente:this.clientesId,
-              IdProductos: this.factura[i].idProducto,
-              Cantidad: this.factura[i].cantidad,
-              Vendedor: this.facturaForm.value.vendedor
+               IdFactura:data.idFactura,
+               IdCliente:this.clientesId,
+               IdProductos: this.factura[i].idProducto,
+               Cantidad: this.factura[i].cantidad,
+           Vendedor: this.facturaForm.value.vendedor
          }
+        // var correo = {
+        //   IdFactura: data.idFactura,
+        //   totalItebis:this.totalItebis,
+        //   totalDinero:this.totalDinero,
+        //   nombre: this.nombreCliente,
+        //   total: this.totalItebis + this.totalDinero
+        //  }
+        //  console.log(correo);
+
          //Insertamos los datos
-         this._pagesService.guardarFacturas(facturaSave).subscribe(data => {
-            if( i + 1 == this.factura.length ){
-              swal({
-                position: 'top-end',
-                type: 'success',
+          this._pagesService.guardarFacturas(facturaSave).subscribe(data => {
+             if( i + 1 == this.factura.length ){
+               swal({
+                 position: 'top-end',
+                 type: 'success',
                 title: 'Factura agregado',
-                showConfirmButton: false,
+                 showConfirmButton: false,
                 timer: 2000
               })
-              this.facturaForm.reset();
+             this.facturaForm.reset();
               this.factura = [];
               this.totalItebis = 0;
               this.totalDinero = 0;
@@ -136,7 +147,9 @@ export class CrearFacturaComponent implements OnInit {
          })
       }
 
-    })
+     })
+
+
 
     //Mandamos el correo
   }

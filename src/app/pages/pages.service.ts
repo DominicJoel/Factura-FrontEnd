@@ -222,6 +222,19 @@ guardarFacturas(factura:any){
             });
 }
 
+
+enviarCorreo(correo:any){
+  let body = JSON.stringify(correo);
+  let headers = new Headers({
+    'Content-Type': 'application/json'
+ });
+
+  return this.http.post(this.facturaURL+'/correo', body, {headers})
+            .map( (res:any) => {
+                 return res.json();
+            });
+}
+
 obtenerDetalleFacturaUnica(idFactura:number){
   let Factura:any = {
     IdFactura: idFactura
