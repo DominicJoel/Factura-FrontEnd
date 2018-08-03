@@ -1,0 +1,108 @@
+<hr>
+<div class="row" >
+    <div class="col-md-3">
+        <span class="round bg-success"  data-toggle="tooltip" data-placement="top" title="Excelente" >
+          <i class="ti-face-smile"> </i>
+      </span>
+      Excelente
+    </div>
+    <div class="col-md-3">
+        <span class="round bg-danger"  data-toggle="tooltip" data-placement="top" title="Nada" >
+          <i class="ti-shopping-cart"></i>
+      </span>
+      Nada
+    </div>
+    <div class="col-md-3">
+        <span class="round bg-primary" data-toggle="tooltip" data-placement="top" title="Suficiente">
+          <i class="ti-check"></i>
+      </span>
+      Suficiente
+    </div>
+    <div class="col-md-3">
+      <span class="round" data-toggle="tooltip" data-placement="top" title="Pocos">
+        <i class="ti-stats-down"></i>
+      </span>
+      Pocos
+  </div>
+
+</div>
+
+<hr>
+
+<div class="card-body">
+
+<div class="example-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+  </mat-form-field>
+</div>
+
+
+<div class="example-container mat-elevation-z8">
+
+  <mat-table [dataSource]="dataSource" matSort>
+
+  <!-- Estado Column -->
+  <ng-container matColumnDef="estado">
+    <mat-header-cell *matHeaderCellDef  > Estado </mat-header-cell>
+    <mat-cell *matCellDef="let producto">
+
+    <span *ngIf="producto.stock > 200" class="btn btn-outline-success"  data-toggle="tooltip" data-placement="top" title="Excelente" >
+        <i class="ti-face-smile"> </i>
+    </span>
+    <button *ngIf="producto.stock == 0"  class="btn btn-outline-danger"  data-toggle="tooltip" data-placement="top" title="Nada" [routerLink] = "['/' , 'compras']" >
+      <i class="ti-shopping-cart"></i>
+    </button>
+    <span *ngIf="producto.stock > 100 && producto.stock <= 200 "  class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Suficiente">
+      <i class="ti-check"></i>
+    </span>
+    <button *ngIf="producto.stock > 0 && producto.stock <= 100 "  class="btn btn-outline-info" data-toggle="tooltip" data-placement="top" title="Pocos"  [routerLink] = "['/' , 'compras']">
+      <i class=" ti-stats-down"></i>
+    </button>
+
+    </mat-cell>
+  </ng-container>
+
+  <!-- Descripcion Column -->
+  <ng-container matColumnDef="descripcion">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
+    <mat-cell *matCellDef="let producto">
+          <h6>
+              <a href="#/{{ producto.idProductos  }}/editar" class="link">{{ producto.descripcion  }}</a>
+          </h6>
+          <small class="text-muted">Nombre :  {{ producto.nombre  }}  </small>
+      </mat-cell>
+  </ng-container>
+
+  <!-- Cantidad Column -->
+  <ng-container matColumnDef="cantidad">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </mat-header-cell>
+    <mat-cell *matCellDef="let producto"> {{ producto.stock }} </mat-cell>
+  </ng-container>
+
+
+  <!-- Precio Column -->
+  <ng-container matColumnDef="precio">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Precio </mat-header-cell>
+    <mat-cell *matCellDef="let producto"> {{ producto.precio | currency }} </mat-cell>
+  </ng-container>
+
+
+
+  <mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <div *ngIf="loading"
+        class="alert alert-warning" role="alert">
+     <strong> <i class="fa fa-refresh fa-spin" style="font-size:18px"></i> Cargando.... </strong> espere por favor.
+  </div>
+
+  <div *ngIf="empty && !loading "
+                     class="alert alert-info" role="alert">
+          <strong> No hay </strong> registro que mostrar.
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+</div>
